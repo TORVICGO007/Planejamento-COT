@@ -126,6 +126,7 @@ textarea{resize:vertical}
 .t3num{font-size:12px;font-weight:700;color:var(--t3);flex-shrink:0;width:15px}
 .t3plbl{font-size:11px;color:var(--t3);flex-shrink:0}
 .t3p{width:76px}
+.t3h{width:88px;display:none}
 
 .dt{width:100%;border-collapse:collapse;font-size:13px}
 .dt th{background:var(--s2);border:1px solid var(--b);padding:6px 8px;font-weight:600;font-size:11px;text-align:left;color:var(--t2);text-transform:uppercase;letter-spacing:.04em}
@@ -161,6 +162,67 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 
 .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(50px);background:var(--t);color:white;padding:7px 16px;border-radius:7px;font-size:13px;font-weight:500;opacity:0;transition:all .2s;z-index:9999;pointer-events:none;white-space:nowrap}
 .toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ── KANBAN ── */
+.kwrap{max-width:1280px;margin:0 auto;padding:20px 18px 40px}
+.kboard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media(max-width:1000px){.kboard{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.kboard{grid-template-columns:1fr}}
+.kcol{background:var(--s2);border:1px solid var(--b);border-radius:10px;display:flex;flex-direction:column;min-height:180px}
+.kcol-head{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;font-size:13px;font-weight:600;color:var(--t);border-bottom:1px solid var(--b)}
+.kcol-count{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:1px 8px;font-size:11px;color:var(--t2);font-weight:600}
+.kcol-body{padding:10px;display:flex;flex-direction:column;gap:8px;min-height:50px;flex:1;transition:background .12s}
+.kcol-body.dragover{background:var(--pul)}
+.kempty{font-size:12px;color:var(--t3);font-style:italic;text-align:center;padding:14px 0}
+
+.kcard{background:var(--s);border:1px solid var(--b);border-left:4px solid var(--b2);border-radius:7px;padding:10px 11px;box-shadow:var(--sh);cursor:grab;position:relative}
+.kcard:active{cursor:grabbing}
+.kdel{position:absolute;top:6px;right:7px;background:none;border:none;color:var(--t3);font-size:15px;cursor:pointer;line-height:1;padding:2px}
+.kdel:hover{color:var(--re)}
+.kstar{position:absolute;top:6px;right:27px;background:none;border:none;font-size:14px;cursor:pointer;line-height:1;padding:2px;color:var(--b2);filter:grayscale(1);opacity:.6}
+.kstar:hover{opacity:1}
+.kstar.active{color:#F5A623;filter:none;opacity:1}
+.kcard.destaque{background:#FFF8E7;box-shadow:0 0 0 1.5px #F5A623,var(--sh)}
+.kdestaque-badge{background:#F5A623;color:white;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:6px;letter-spacing:.02em}
+.kcard-title{font-size:13px;color:var(--t);font-weight:500;margin-bottom:8px;padding-right:16px;line-height:1.4;word-break:break-word}
+.kcard-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:7px}
+.kresp-wrap{display:flex;align-items:center;gap:5px;flex:1;min-width:0}
+.kav{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:white;flex-shrink:0}
+.kav-empty{background:var(--b2);color:var(--t3)}
+.kresp{border:none;background:transparent;font-size:11.5px;color:var(--t2);outline:none;cursor:pointer;flex:1;min-width:0;padding:2px 0}
+.kcx{border:none;border-radius:4px;font-size:10.5px;font-weight:600;padding:2px 6px;cursor:pointer;outline:none;flex-shrink:0}
+.kx-baixa{background:var(--grb);color:var(--gr)}
+.kx-media{background:var(--yeb);color:#7a5400}
+.kx-alta{background:var(--reb);color:var(--re)}
+.kmove{width:100%;border:1px solid var(--b);border-radius:5px;font-size:11.5px;color:var(--t2);padding:4px 6px;background:var(--s2);outline:none;cursor:pointer}
+.kmove:focus{border-color:var(--pu)}
+.kprazo{width:100%;border:1px solid var(--b);border-radius:5px;padding:4px 6px;font-size:11.5px;color:var(--t2);background:var(--s2);outline:none;margin-top:6px}
+.kprazo:focus{border-color:var(--pu)}
+.kprazo[readonly]{background:#FAFAF8;color:var(--t3);pointer-events:none}
+.khora{width:100%;border:1px solid var(--b);border-radius:5px;padding:4px 6px;font-size:11.5px;color:var(--t2);background:var(--s2);outline:none;margin-top:4px;display:none}
+.khora:focus{border-color:var(--pu)}
+.khora[readonly]{background:#FAFAF8;color:var(--t3);pointer-events:none}
+.ativ-hora{width:100%;margin-top:4px;border:1px solid var(--b);border-radius:5px;padding:4px 5px;font-size:12px;color:var(--t2);background:var(--s2);outline:none;display:none}
+.ativ-hora:focus{border-color:var(--pu)}
+
+.dt tr.kanban-linked td{background:var(--pul)!important}
+.klink-ico{font-size:11px;margin-right:4px;opacity:.75}
+
+.karb{margin:0 10px 10px;background:none;border:1px dashed var(--b2);border-radius:6px;padding:7px;font-size:12px;color:var(--t3);cursor:pointer}
+.karb:hover{border-color:var(--pu);color:var(--pu);background:var(--pul)}
+.karb.hid{display:none}
+
+.kaddform{display:none;flex-direction:column;gap:6px;margin:0 10px 10px;background:var(--s);border:1px solid var(--pum);border-radius:7px;padding:9px}
+.kaddform.show{display:flex}
+.kaddtxt{width:100%;border:1px solid var(--b);border-radius:5px;padding:6px 8px;font-size:12.5px;font-family:inherit;outline:none;resize:vertical;min-height:44px}
+.kaddtxt:focus{border-color:var(--pu)}
+.kaddrow{display:flex;gap:6px}
+.kaddresp,.kaddcx{flex:1;border:1px solid var(--b);border-radius:5px;padding:5px 6px;font-size:11.5px;outline:none;background:var(--s2)}
+.kaddbtns{display:flex;gap:6px}
+.kbtn-primary{flex:1;background:var(--pu);color:white;border:none;border-radius:5px;padding:6px;font-size:12px;font-weight:600;cursor:pointer}
+.kbtn-primary:hover{background:#5c2683}
+.kbtn-ghost{flex:1;background:var(--s2);border:1px solid var(--b);border-radius:5px;padding:6px;font-size:12px;color:var(--t2);cursor:pointer}
+.kbtn-ghost:hover{background:var(--b)}
 </style>
 </head>
 <body>
@@ -192,6 +254,7 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 
 <div class="tabs" id="appTabs" style="display:none">
   <div class="tab on" data-tab="visao"     onclick="goTab('visao')">🏠 Visão Geral</div>
+  <div class="tab"    data-tab="kanban"    onclick="goTab('kanban')">📋 Kanban</div>
   <div class="tab"    data-tab="henrique"  onclick="goTab('henrique')">👤 Henrique</div>
   <div class="tab"    data-tab="isabela"   onclick="goTab('isabela')">👤 Isabela</div>
   <div class="tab"    data-tab="wanderson" onclick="goTab('wanderson')">👤 Wanderson</div>
@@ -213,6 +276,13 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
   <div class="chips" id="summaryChips"></div>
   <div class="sec-lbl">VISÃO DO TIME</div>
   <div class="mgrid" id="membersGrid"></div>
+</div>
+</div>
+
+<div class="page" id="page-kanban">
+<div class="kwrap">
+  <div class="sec-lbl">QUADRO KANBAN — <span id="kanban_date_lbl"></span></div>
+  <div class="kboard" id="kanbanBoard"></div>
 </div>
 </div>
 
@@ -250,6 +320,25 @@ let curDate=todayStr(),isLocked=false,sb=null,cacheDay={dados:{},transferido:fal
 let DEMO_MODE=false;
 const demoDays={},demoMem={};
 
+const KCOLS=['geral','afazer','fazendo','feito'];
+const KLABEL={geral:'Geral',afazer:'A Fazer',fazendo:'Fazendo',feito:'Feito'};
+let cacheKanban=[];
+let cacheKanbanMeta={transferido:false};
+const demoKanban={};
+const demoKanbanXfer={};
+
+function seedKanbanDemo(){
+  const d=todayStr();
+  const hojeDDMM=ddmmFromISO(d);
+  demoKanban[d]=[
+    {id:'k_demo1',titulo:'Aprovar orçamento do trimestre',responsavel:null,complexidade:'Alta',prazo:hojeDDMM,hora:'17:00',destaque:true,coluna:'geral'},
+    {id:'k_demo2',titulo:'Organizar documentação de processos',responsavel:'wanderson',complexidade:'Média',prazo:'10/07',coluna:'afazer'},
+    {id:'k_demo3',titulo:'Revisar fluxo de onboarding',responsavel:'matheus',complexidade:'Alta',prazo:'12/07',coluna:'fazendo'},
+    {id:'k_demo4',titulo:'Enviar relatório semanal',responsavel:'victor',complexidade:'Baixa',prazo:'08/07',coluna:'feito'},
+    {id:'k_demo5',titulo:'Ticket de baixa prioridade',responsavel:'wanderson',complexidade:'Baixa',prazo:'',coluna:'afazer'}
+  ];
+}
+
 function seedDemoData(){
   const d=todayStr();
   demoMem[d+'|henrique']={ativs:[
@@ -267,6 +356,7 @@ function seedDemoData(){
   DEMO_MODE = SUPABASE_URL.includes('COLE_AQUI') || SUPABASE_KEY.includes('COLE_AQUI');
   if(DEMO_MODE){
     seedDemoData();
+    seedKanbanDemo();
     document.getElementById('demoBanner').style.display='flex';
   }else{
     sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -275,10 +365,19 @@ function seedDemoData(){
   document.querySelectorAll('.page').forEach(p=>p.style.display='');
   document.getElementById('datePicker').value=curDate;
   buildAllMemPages();
-  loadAll().then(()=>checkXfer()).then(()=>{ if(!DEMO_MODE) startPolling(); });
+  buildKanbanBoard();
+  loadAll().then(()=>checkAllTransfers()).then(()=>{ if(!DEMO_MODE) startPolling(); });
 })();
 
 function todayStr(){return new Date().toLocaleDateString('en-CA')}
+function hojeDDMM(){const[y,mo,d]=todayStr().split('-');return `${d}/${mo}`}
+function isPrazoHoje(prazo){
+  if(!prazo)return false;
+  const mm=prazo.trim().match(/^(\d{1,2})\/(\d{1,2})$/);
+  if(!mm)return false;
+  const hoje=new Date();
+  return parseInt(mm[1],10)===hoje.getDate() && parseInt(mm[2],10)===(hoje.getMonth()+1);
+}
 function fmtPT(s){
   if(!s)return'';
   const[y,m,d]=s.split('-');
@@ -289,6 +388,21 @@ function fmtPT(s){
 }
 function fmtTime(){return new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
 function addDays(s,n){const[y,m,d]=s.split('-').map(Number);const dt=new Date(y,m-1,d);dt.setDate(dt.getDate()+n);return dt.toLocaleDateString('en-CA')}
+
+// ── PRAZO COM HORA (quando o prazo é hoje) ──
+function prazoEhHoje(prazoStr){
+  if(!prazoStr)return false;
+  const m=String(prazoStr).trim().match(/^(\d{1,2})\/(\d{1,2})$/);
+  if(!m)return false;
+  const dia=parseInt(m[1],10),mes=parseInt(m[2],10);
+  const hoje=new Date();
+  return dia===hoje.getDate()&&mes===(hoje.getMonth()+1);
+}
+function toggleHoraVis(prazoEl,horaEl){
+  if(!prazoEl||!horaEl)return;
+  horaEl.style.display=prazoEhHoje(prazoEl.value)?'block':'none';
+}
+function ddmmFromISO(iso){const[y,m,d]=iso.split('-');return d+'/'+m;}
 
 function setConn(s){
   const el=document.getElementById('connBadge');
@@ -333,11 +447,20 @@ async function apiHist(){
     const dates=new Set([todayStr()]);
     Object.keys(demoMem).forEach(k=>dates.add(k.split('|')[0]));
     Object.keys(demoDays).forEach(d=>dates.add(d));
+    Object.keys(demoKanban).forEach(d=>dates.add(d));
     return Array.from(dates).sort().reverse();
   }
-  const{data,error}=await sb.from('checklist_dias').select('data').order('data',{ascending:false}).limit(120);
-  if(error)throw error;
-  return(data||[]).map(r=>r.data);
+  const[{data:cl,error:e1},{data:mb,error:e2},{data:kb,error:e3}]=await Promise.all([
+    sb.from('checklist_dias').select('data'),
+    sb.from('membro_dias').select('data'),
+    sb.from('kanban_dias').select('data')
+  ]);
+  if(e1)throw e1; if(e2)throw e2; if(e3)throw e3;
+  const set=new Set();
+  (cl||[]).forEach(r=>set.add(r.data));
+  (mb||[]).forEach(r=>set.add(r.data));
+  (kb||[]).forEach(r=>set.add(r.data));
+  return Array.from(set).sort().reverse().slice(0,120);
 }
 async function apiExport(){
   if(DEMO_MODE){
@@ -350,20 +473,38 @@ async function apiExport(){
 }
 async function apiLog(d,m,a){if(DEMO_MODE)return;try{await sb.from('log_alteracoes').insert({data:d,membro:m,acao:a})}catch(e){}}
 
+// ── API KANBAN ──
+async function apiGetKanbanRow(d){
+  if(DEMO_MODE) return {cards:demoKanban[d]||[], transferido:!!demoKanbanXfer[d]};
+  const{data,error}=await sb.from('kanban_dias').select('*').eq('data',d).maybeSingle();
+  if(error)throw error;
+  return data||{cards:[],transferido:false};
+}
+async function apiSaveKanban(d,cards){
+  if(DEMO_MODE){demoKanban[d]=cards;return;}
+  const{error}=await sb.from('kanban_dias').upsert({data:d,cards},{onConflict:'data'});
+  if(error)throw error;
+}
+async function apiSetKanbanXfer(d){
+  if(DEMO_MODE){demoKanbanXfer[d]=true;return;}
+  const{error}=await sb.from('kanban_dias').upsert({data:d,transferido:true},{onConflict:'data'});
+  if(error)throw error;
+}
+
 // ── NAV ──
 function goTab(t){
   document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('on',el.dataset.tab===t));
   document.querySelectorAll('.page').forEach(el=>el.classList.toggle('on',el.id==='page-'+t));
 }
 function navDay(n){curDate=addDays(curDate,n);document.getElementById('datePicker').value=curDate;changeDate()}
-async function changeDate(){curDate=document.getElementById('datePicker').value;await loadAll();await checkXfer()}
+async function changeDate(){curDate=document.getElementById('datePicker').value;await loadAll();await checkAllTransfers()}
 
 // ── LOCK ──
 function applyLock(){
   isLocked=curDate<todayStr();
   document.getElementById('lockBadge').classList.toggle('on',isLocked);
   document.querySelectorAll('.fta,.fin').forEach(el=>{isLocked?el.setAttribute('readonly',''):el.removeAttribute('readonly')});
-  document.querySelectorAll('.t3in,.t3p').forEach(el=>{isLocked?el.setAttribute('readonly',''):el.removeAttribute('readonly')});
+  document.querySelectorAll('.t3in,.t3p,.t3h').forEach(el=>{isLocked?el.setAttribute('readonly',''):el.removeAttribute('readonly')});
   document.querySelectorAll('.dt td').forEach(td=>{td.classList.toggle('lk',isLocked);td.querySelectorAll('input,textarea,select').forEach(el=>{el.readOnly=isLocked;if(el.tagName==='SELECT')el.disabled=isLocked})});
   document.querySelectorAll('.arb').forEach(el=>el.classList.toggle('hid',isLocked));
 }
@@ -372,7 +513,11 @@ function applyLock(){
 function buildGrid(){
   const grid=document.getElementById('membersGrid');
   let tot=0,alta=0,comp=0;
-  MEMBROS.forEach(m=>{const a=(cacheMem[m]||{}).ativs||[];tot+=a.length;alta+=a.filter(x=>x.prioridade==='Alta').length;if(a.length>0&&a.every(x=>x.status==='Concluído'))comp++});
+  MEMBROS.forEach(m=>{
+    const a=[...((cacheMem[m]||{}).ativs||[]),...getKanbanAtivsFor(m)];
+    tot+=a.length;alta+=a.filter(x=>x.prioridade==='Alta').length;
+    if(a.length>0&&a.every(x=>x.status==='Concluído'))comp++;
+  });
   document.getElementById('summaryChips').innerHTML=`
     <div class="chip">👥 <strong>${MEMBROS.length}</strong> membros</div>
     <div class="chip">📋 <strong>${tot}</strong> atividades</div>
@@ -382,7 +527,7 @@ function buildGrid(){
   grid.innerHTML='';
   MEMBROS.forEach(m=>{
     const o=cacheMem[m]||{};
-    const ativs=o.ativs||[];
+    const ativs=[...(o.ativs||[]),...getKanbanAtivsFor(m)];
     const color=MCOLOR[m],ini=MINIC[m],label=MLABEL[m];
     let stag='n',stxt='Sem atividades',dc='e';
     if(ativs.length>0){
@@ -453,7 +598,8 @@ function buildMemPage(m){
         <span class="t3num">${n}.</span>
         <input type="text" class="fin t3in" id="${m}_t${n}" placeholder="Prioridade ${n}..." oninput="saveMem('${m}')">
         <span class="t3plbl">Prazo:</span>
-        <input type="text" class="fin t3p" id="${m}_t${n}p" placeholder="dd/mm" oninput="saveMem('${m}')">
+        <input type="text" class="fin t3p" id="${m}_t${n}p" placeholder="dd/mm" oninput="saveMem('${m}');toggleHoraVis(this,document.getElementById('${m}_t${n}h'))">
+        <input type="time" class="fin t3h" id="${m}_t${n}h" oninput="saveMem('${m}')">
       </div>`).join('')}
     </div>
   </div>
@@ -489,11 +635,14 @@ function addAtiv(m,d){
   const pv=d.prioridade||'Média',sv=d.status||'Pendente';
   const tr=document.createElement('tr');
   tr.innerHTML=`
-    <td><input type="text" placeholder="Descreva a atividade..." value="${esc(d.atividade||'')}" oninput="saveMem('${m}')"></td>
+    <td><input type="text" class="ativ-nome" placeholder="Descreva a atividade..." value="${esc(d.atividade||'')}" oninput="saveMem('${m}')"></td>
     <td><div class="pcell"><span class="dot ${pc(pv)}"></span><select class="ps" onchange="paintDot(this);saveMem('${m}')"><option${pv==='Alta'?' selected':''}>Alta</option><option${pv==='Média'?' selected':''}>Média</option><option${pv==='Baixa'?' selected':''}>Baixa</option></select></div></td>
     <td><select class="ss" onchange="paintSt(this);saveMem('${m}')"><option${sv==='Pendente'?' selected':''}>Pendente</option><option${sv==='Em andamento'?' selected':''}>Em andamento</option><option${sv==='Concluído'?' selected':''}>Concluído</option></select></td>
-    <td><input type="text" placeholder="dd/mm" value="${esc(d.prazo||'')}" oninput="saveMem('${m}')"></td>
-    <td><input type="text" placeholder="Observação..." value="${esc(d.obs||'')}" oninput="saveMem('${m}')"></td>
+    <td>
+      <input type="text" class="ativ-prazo" placeholder="dd/mm" value="${esc(d.prazo||'')}" oninput="saveMem('${m}');toggleHoraVis(this,this.parentElement.querySelector('.ativ-hora'))">
+      <input type="time" class="ativ-hora" value="${esc(d.hora||'')}" style="display:${prazoEhHoje(d.prazo)?'block':'none'}" oninput="saveMem('${m}')">
+    </td>
+    <td><input type="text" class="ativ-obs" placeholder="Observação..." value="${esc(d.obs||'')}" oninput="saveMem('${m}')"></td>
   `;
   document.getElementById('tbody_'+m).appendChild(tr);
   paintSt(tr.querySelector('.ss'));paintDot(tr.querySelector('.ps'));
@@ -504,15 +653,268 @@ function paintDot(sel){const d=sel.closest('.pcell')?.querySelector('.dot');if(d
 function paintSt(sel){sel.className='ss';if(sel.value==='Concluído')sel.classList.add('sc');else if(sel.value==='Pendente')sel.classList.add('sp');else if(sel.value==='Em andamento')sel.classList.add('sa');if(isLocked)sel.classList.add('lk')}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
 
+// ══════════════════════════════════════════
+// KANBAN
+// ══════════════════════════════════════════
+function kNewId(){return 'k_'+Date.now()+'_'+Math.random().toString(36).slice(2,7)}
+function kx(v){return v==='Alta'?'kx-alta':v==='Baixa'?'kx-baixa':'kx-media'}
+
+const K_ORDEM_COMPLEX={'Alta':0,'Média':1,'Baixa':2};
+function kSortCards(cards){
+  return [...cards].sort((a,b)=>{
+    const da=a.destaque?0:1,db=b.destaque?0:1;
+    if(da!==db)return da-db;
+    const ca=K_ORDEM_COMPLEX[a.complexidade]??1,cb=K_ORDEM_COMPLEX[b.complexidade]??1;
+    return ca-cb;
+  });
+}
+
+function buildKanbanBoard(){
+  const board=document.getElementById('kanbanBoard');
+  board.innerHTML=KCOLS.map(c=>`
+    <div class="kcol" data-col="${c}">
+      <div class="kcol-head"><span>${KLABEL[c]}</span><span class="kcol-count" id="kcount_${c}">0</span></div>
+      <div class="kcol-body" id="kbody_${c}"
+           ondragover="event.preventDefault();this.classList.add('dragover')"
+           ondragleave="this.classList.remove('dragover')"
+           ondrop="kDrop(event,'${c}')"></div>
+      <div class="kaddform" id="kaddform_${c}">
+        <textarea class="kaddtxt" id="kaddtxt_${c}" placeholder="Descreva a demanda..." rows="2"></textarea>
+        <div class="kaddrow">
+          <select class="kaddresp" id="kaddresp_${c}">
+            <option value="">Sem atribuição</option>
+            ${MEMBROS.map(m=>`<option value="${m}">${MLABEL[m]}</option>`).join('')}
+          </select>
+          <select class="kaddcx" id="kaddcx_${c}">
+            <option>Baixa</option><option selected>Média</option><option>Alta</option>
+          </select>
+        </div>
+        <input type="text" class="kprazo" id="kaddprazo_${c}" placeholder="Prazo (dd/mm)" oninput="toggleHoraVis(this,document.getElementById('kaddhora_${c}'))">
+        <input type="time" class="khora" id="kaddhora_${c}">
+        <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--t2);margin-top:2px;cursor:pointer">
+          <input type="checkbox" id="kadddestaque_${c}" style="cursor:pointer"> ⭐ Atenção da liderança
+        </label>
+        <div class="kaddbtns">
+          <button class="kbtn-primary" onclick="kConfirmAdd('${c}')">Adicionar</button>
+          <button class="kbtn-ghost" onclick="kCancelAdd('${c}')">Cancelar</button>
+        </div>
+      </div>
+      <button class="karb" id="kaddbtn_${c}" onclick="kShowAddForm('${c}')">+ Adicionar</button>
+    </div>
+  `).join('');
+}
+
+function kShowAddForm(c){
+  if(isLocked)return;
+  document.getElementById('kaddform_'+c).classList.add('show');
+  document.getElementById('kaddbtn_'+c).style.display='none';
+  document.getElementById('kaddtxt_'+c).focus();
+}
+function kCancelAdd(c){
+  document.getElementById('kaddform_'+c).classList.remove('show');
+  document.getElementById('kaddbtn_'+c).style.display='';
+  document.getElementById('kaddtxt_'+c).value='';
+  document.getElementById('kaddresp_'+c).value='';
+  document.getElementById('kaddcx_'+c).value='Média';
+  document.getElementById('kaddprazo_'+c).value='';
+  document.getElementById('kaddhora_'+c).value='';
+  document.getElementById('kaddhora_'+c).style.display='none';
+  document.getElementById('kadddestaque_'+c).checked=false;
+}
+function kConfirmAdd(c){
+  const txtEl=document.getElementById('kaddtxt_'+c);
+  const txt=txtEl.value.trim();
+  if(!txt){txtEl.focus();return;}
+  const resp=document.getElementById('kaddresp_'+c).value;
+  const cx=document.getElementById('kaddcx_'+c).value;
+  const prazo=document.getElementById('kaddprazo_'+c).value.trim();
+  const hora=document.getElementById('kaddhora_'+c).value;
+  const destaque=document.getElementById('kadddestaque_'+c).checked;
+  let coluna=c;
+  if(coluna==='geral'&&resp)coluna='afazer';
+  cacheKanban.push({id:kNewId(),titulo:txt,responsavel:resp||null,complexidade:cx,prazo,hora,destaque,coluna});
+  kCancelAdd(c);
+  renderKanban();
+  kSaveDebounced();
+}
+
+function kSetPrazo(id,val){
+  if(isLocked)return;
+  const card=cacheKanban.find(c=>c.id===id);
+  if(!card)return;
+  card.prazo=val;
+  renderKanban();
+  kSaveDebounced();
+}
+function kSetHora(id,val){
+  if(isLocked)return;
+  const card=cacheKanban.find(c=>c.id===id);
+  if(!card)return;
+  card.hora=val;
+  kSaveDebounced();
+  MEMBROS.forEach(m=>refreshLinkedRows(m));
+}
+function kToggleDestaque(id){
+  if(isLocked)return;
+  const card=cacheKanban.find(c=>c.id===id);
+  if(!card)return;
+  card.destaque=!card.destaque;
+  renderKanban();
+  kSaveDebounced();
+}
+
+function kDelete(id){
+  if(isLocked)return;
+  cacheKanban=cacheKanban.filter(c=>c.id!==id);
+  renderKanban();
+  kSaveDebounced();
+}
+function kAssign(id,resp){
+  if(isLocked)return;
+  const card=cacheKanban.find(c=>c.id===id);
+  if(!card)return;
+  card.responsavel=resp||null;
+  if(card.coluna==='geral'&&resp)card.coluna='afazer';
+  renderKanban();
+  kSaveDebounced();
+}
+function kSetComplex(id,val){
+  if(isLocked)return;
+  const card=cacheKanban.find(c=>c.id===id);
+  if(!card)return;
+  card.complexidade=val;
+  renderKanban();
+  kSaveDebounced();
+}
+function kMoveCard(id,novaColuna){
+  if(isLocked||!novaColuna)return;
+  const card=cacheKanban.find(c=>c.id===id);
+  if(!card)return;
+  card.coluna=novaColuna;
+  renderKanban();
+  kSaveDebounced();
+}
+
+let kDragId=null;
+function kDragStart(ev,id){
+  if(isLocked){ev.preventDefault();return;}
+  kDragId=id;
+  ev.dataTransfer.effectAllowed='move';
+  ev.dataTransfer.setData('text/plain',id);
+}
+function kDrop(ev,coluna){
+  ev.preventDefault();
+  ev.currentTarget.classList.remove('dragover');
+  const id=kDragId||ev.dataTransfer.getData('text/plain');
+  if(isLocked||!id)return;
+  kMoveCard(id,coluna);
+  kDragId=null;
+}
+
+function renderKanban(){
+  const dl=document.getElementById('kanban_date_lbl');if(dl)dl.textContent=fmtPT(curDate);
+  KCOLS.forEach(c=>{
+    const body=document.getElementById('kbody_'+c);
+    if(!body)return;
+    const cards=kSortCards(cacheKanban.filter(card=>card.coluna===c));
+    const countEl=document.getElementById('kcount_'+c);if(countEl)countEl.textContent=cards.length;
+    body.innerHTML=cards.length?cards.map(card=>{
+      const respColor=card.responsavel?MCOLOR[card.responsavel]:null;
+      const cxv=card.complexidade||'Média';
+      return `
+      <div class="kcard ${card.destaque?'destaque':''}" draggable="${!isLocked}" ondragstart="kDragStart(event,'${card.id}')" style="border-left-color:${respColor||'var(--b2)'}">
+        <button class="kstar ${card.destaque?'active':''}" onclick="kToggleDestaque('${card.id}')" title="Marcar atenção da liderança" style="${isLocked?'display:none':''}">⭐</button>
+        <button class="kdel" onclick="kDelete('${card.id}')" title="Remover" style="${isLocked?'display:none':''}">×</button>
+        ${card.destaque?'<div class="kdestaque-badge">⚠️ ATENÇÃO DA LIDERANÇA</div>':''}
+        <div class="kcard-title">${esc(card.titulo)}</div>
+        <div class="kcard-meta">
+          <div class="kresp-wrap">
+            ${card.responsavel?`<span class="kav" style="background:${respColor}">${MINIC[card.responsavel]}</span>`:`<span class="kav kav-empty">?</span>`}
+            <select class="kresp" onchange="kAssign('${card.id}',this.value)" ${isLocked?'disabled':''}>
+              <option value="">Sem atribuição</option>
+              ${MEMBROS.map(m=>`<option value="${m}" ${card.responsavel===m?'selected':''}>${MLABEL[m]}</option>`).join('')}
+            </select>
+          </div>
+          <select class="kcx ${kx(cxv)}" onchange="kSetComplex('${card.id}',this.value)" ${isLocked?'disabled':''}>
+            <option ${cxv==='Baixa'?'selected':''}>Baixa</option>
+            <option ${cxv==='Média'?'selected':''}>Média</option>
+            <option ${cxv==='Alta'?'selected':''}>Alta</option>
+          </select>
+        </div>
+        <select class="kmove" onchange="kMoveCard('${card.id}',this.value);this.value=''" ${isLocked?'disabled':''}>
+          <option value="">↕ Mover para...</option>
+          ${KCOLS.filter(x=>x!==card.coluna).map(x=>`<option value="${x}">${KLABEL[x]}</option>`).join('')}
+        </select>
+        <input type="text" class="kprazo" placeholder="Prazo (dd/mm)" value="${esc(card.prazo||'')}" onchange="kSetPrazo('${card.id}',this.value)" ${isLocked?'readonly':''}>
+        <input type="time" class="khora" style="display:${prazoEhHoje(card.prazo)?'block':'none'}" value="${esc(card.hora||'')}" onchange="kSetHora('${card.id}',this.value)" ${isLocked?'readonly':''}>
+      </div>`;
+    }).join(''):'<div class="kempty">Nenhum card aqui</div>';
+  });
+  document.querySelectorAll('.karb').forEach(el=>el.classList.toggle('hid',isLocked));
+  MEMBROS.forEach(m=>refreshLinkedRows(m));
+  buildGrid();
+}
+
+let _kt;
+function kSaveDebounced(){
+  if(isLocked)return;
+  clearTimeout(_kt);setConn('saving');
+  _kt=setTimeout(async()=>{
+    try{await apiSaveKanban(curDate,cacheKanban);setConn(DEMO_MODE?'demo':'online');toast('Kanban salvo ✓');}
+    catch(e){setConn('offline');toast('⚠️ Erro ao salvar');}
+  },600);
+}
+
+// ── VÍNCULO: cards do Kanban aparecem na tabela de atividades da pessoa ──
+function kColToStatus(c){return c==='feito'?'Concluído':c==='fazendo'?'Em andamento':'Pendente'}
+function getKanbanAtivsFor(m){
+  return cacheKanban.filter(c=>c.responsavel===m).map(c=>({
+    atividade:c.titulo,prioridade:c.complexidade||'Média',status:kColToStatus(c.coluna),prazo:c.prazo||'',hora:c.hora||''
+  }));
+}
+function renderLinkedRow(m,card){
+  const tbody=document.getElementById('tbody_'+m);
+  if(!tbody)return;
+  const st=kColToStatus(card.coluna);
+  const cx=card.complexidade||'Média';
+  const stClass=st==='Concluído'?'sc':st==='Pendente'?'sp':'sa';
+  const prazoTxt=card.prazo?(card.prazo+(card.hora?' às '+card.hora:'')):'';
+  const tr=document.createElement('tr');
+  tr.className='kanban-linked';
+  tr.innerHTML=`
+    <td><span class="klink-ico" title="Vinculado ao card do Kanban">📋</span>${esc(card.titulo)}</td>
+    <td><div class="pcell"><span class="dot ${pc(cx)}"></span><span style="font-size:12px;color:var(--t2)">${cx}</span></div></td>
+    <td><span class="${stClass}">${st}</span></td>
+    <td><span style="font-size:12px;color:var(--t2)">${esc(prazoTxt)}</span></td>
+    <td><span style="font-size:11px;color:var(--t3);font-style:italic">via Kanban</span></td>
+  `;
+  tbody.appendChild(tr);
+}
+function refreshLinkedRows(m){
+  const tbody=document.getElementById('tbody_'+m);
+  if(!tbody)return;
+  tbody.querySelectorAll('tr.kanban-linked').forEach(tr=>tr.remove());
+  cacheKanban.filter(c=>c.responsavel===m).forEach(card=>renderLinkedRow(m,card));
+}
+
 // ── SAVE / LOAD MEMBER ──
 const _mt={};
 function saveMem(m){
   if(isLocked)return;clearTimeout(_mt[m]);setConn('saving');
   _mt[m]=setTimeout(async()=>{
     const o={};
-    ['obj','meta','imp','mel','t1','t1p','t2','t2p','t3','t3p'].forEach(f=>{const el=document.getElementById(m+'_'+f);if(el)o[f]=el.value});
+    ['obj','meta','imp','mel','t1','t1p','t1h','t2','t2p','t2h','t3','t3p','t3h'].forEach(f=>{const el=document.getElementById(m+'_'+f);if(el)o[f]=el.value});
     o.ativs=[];
-    document.querySelectorAll('#tbody_'+m+' tr').forEach(tr=>{const i=tr.querySelectorAll('input');o.ativs.push({atividade:i[0]?.value||'',prioridade:tr.querySelector('.ps')?.value||'Média',status:tr.querySelector('.ss')?.value||'Pendente',prazo:i[1]?.value||'',obs:i[2]?.value||''})});
+    document.querySelectorAll('#tbody_'+m+' tr:not(.kanban-linked)').forEach(tr=>{
+      o.ativs.push({
+        atividade:tr.querySelector('.ativ-nome')?.value||'',
+        prioridade:tr.querySelector('.ps')?.value||'Média',
+        status:tr.querySelector('.ss')?.value||'Pendente',
+        prazo:tr.querySelector('.ativ-prazo')?.value||'',
+        hora:tr.querySelector('.ativ-hora')?.value||'',
+        obs:tr.querySelector('.ativ-obs')?.value||''
+      });
+    });
     try{await apiSaveMem(curDate,m,o);cacheMem[m]=o;setConn(DEMO_MODE?'demo':'online');toast(`Salvo — ${MLABEL[m]} ✓`);buildGrid();}
     catch(e){setConn('offline');toast('⚠️ Erro ao salvar')}
   },600);
@@ -522,28 +924,42 @@ function loadMem(m){
   const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||''};
   const dl=document.getElementById(m+'_dlbl');if(dl)dl.textContent=fmtPT(curDate)+' — '+fmtTime();
   ['obj','meta','imp','mel','t1','t1p','t2','t2p','t3','t3p'].forEach(f=>sv(m+'_'+f,o[f]));
+  [1,2,3].forEach(n=>{
+    sv(m+'_t'+n+'h',o['t'+n+'h']);
+    toggleHoraVis(document.getElementById(m+'_t'+n+'p'),document.getElementById(m+'_t'+n+'h'));
+  });
   document.getElementById('tbody_'+m).innerHTML='';
   (o.ativs&&o.ativs.length?o.ativs:[{},{},{}]).forEach(d=>addAtiv(m,d));
+  refreshLinkedRows(m);
 }
 
 // ── LOAD ALL ──
 async function loadAll(){
   try{
-    const[day,mems]=await Promise.all([apiGetDay(curDate),apiGetAllMem(curDate)]);
-    cacheDay=day;cacheMem=mems;setConn('online');
-  }catch(e){setConn('offline');toast('⚠️ Sem conexão com o banco');cacheDay={dados:{},transferido:false};cacheMem={}}
+    const[day,mems,krow]=await Promise.all([apiGetDay(curDate),apiGetAllMem(curDate),apiGetKanbanRow(curDate)]);
+    cacheDay=day;cacheMem=mems;cacheKanban=krow.cards||[];cacheKanbanMeta={transferido:!!krow.transferido};setConn('online');
+  }catch(e){setConn('offline');toast('⚠️ Sem conexão com o banco');cacheDay={dados:{},transferido:false};cacheMem={};cacheKanban=[];cacheKanbanMeta={transferido:false}}
   isLocked=curDate<todayStr();
   MEMBROS.forEach(m=>loadMem(m));
   buildGrid();
+  renderKanban();
   applyLock();
   renderHist();
 }
 
 // ── TRANSFER PENDING ──
-async function checkXfer(){
+async function checkAllTransfers(){
+  const msgs=[];
+  const m1=await checkXferActivities();if(m1)msgs.push(m1);
+  const m2=await checkXferKanban();if(m2)msgs.push(m2);
   const banner=document.getElementById('xferBanner');
-  if(curDate!==todayStr()||cacheDay.transferido){banner.classList.remove('on');return}
-  let yMems;try{yMems=await apiGetAllMem(addDays(curDate,-1))}catch(e){return}
+  if(msgs.length){banner.classList.add('on');banner.textContent='⚠️ '+msgs.join(' ');}
+  else banner.classList.remove('on');
+}
+
+async function checkXferActivities(){
+  if(curDate!==todayStr()||cacheDay.transferido)return null;
+  let yMems;try{yMems=await apiGetAllMem(addDays(curDate,-1))}catch(e){return null}
   let count=0;
   for(const m of MEMBROS){
     const yo=yMems[m]||{};
@@ -557,9 +973,24 @@ async function checkXfer(){
   if(count>0){
     try{await apiSetXfer(curDate);cacheDay.transferido=true}catch(e){}
     MEMBROS.forEach(m=>loadMem(m));buildGrid();applyLock();
-    banner.classList.add('on');
-    banner.textContent=`⚠️ ${count} atividade(s) pendente(s) transferidas automaticamente do dia anterior para hoje.`;
-  }else banner.classList.remove('on');
+    return `${count} atividade(s) pendente(s) transferida(s) do dia anterior.`;
+  }
+  return null;
+}
+
+async function checkXferKanban(){
+  if(curDate!==todayStr()||cacheKanbanMeta.transferido)return null;
+  let yRow;try{yRow=await apiGetKanbanRow(addDays(curDate,-1))}catch(e){return null}
+  const pend=(yRow.cards||[]).filter(c=>c.coluna!=='feito');
+  if(!pend.length)return null;
+  let count=0;
+  pend.forEach(c=>{if(!cacheKanban.some(x=>x.id===c.id)){cacheKanban.push({...c});count++;}});
+  if(count>0){
+    try{await apiSaveKanban(curDate,cacheKanban);await apiSetKanbanXfer(curDate);cacheKanbanMeta.transferido=true;}catch(e){}
+    renderKanban();applyLock();
+    return `${count} card(s) do Kanban transferido(s) do dia anterior.`;
+  }
+  return null;
 }
 
 // ── HISTORY ──
@@ -599,10 +1030,10 @@ function startPolling(){
     if(a&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.tagName==='SELECT'))return;
     if(document.getElementById('hDr').classList.contains('on'))return;
     try{
-      const[day,mems]=await Promise.all([apiGetDay(curDate),apiGetAllMem(curDate)]);
-      cacheDay=day;cacheMem=mems;setConn('online');
+      const[day,mems,krow]=await Promise.all([apiGetDay(curDate),apiGetAllMem(curDate),apiGetKanbanRow(curDate)]);
+      cacheDay=day;cacheMem=mems;cacheKanban=krow.cards||[];cacheKanbanMeta={transferido:!!krow.transferido};setConn('online');
       isLocked=curDate<todayStr();
-      MEMBROS.forEach(m=>loadMem(m));buildGrid();applyLock();
+      MEMBROS.forEach(m=>loadMem(m));buildGrid();renderKanban();applyLock();
     }catch(e){setConn('offline')}
   },20000);
 }
