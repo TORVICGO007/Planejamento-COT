@@ -68,6 +68,8 @@ textarea{resize:vertical}
 .chip strong{color:var(--t);font-weight:600}
 .chip.red{background:var(--reb);border-color:#f8c0c0;color:#8B1A14}
 .chip.red strong{color:#8B1A14}
+.chip.gold{background:#FFF8E7;border-color:#F5A623;color:#8a5d00}
+.chip.gold strong{color:#8a5d00}
 .sec-lbl{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
 
 .mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
@@ -164,10 +166,11 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 .toast.on{transform:translateX(-50%) translateY(0);opacity:1}
 
 /* ── KANBAN ── */
-.kwrap{max-width:1280px;margin:0 auto;padding:20px 18px 40px}
-.kboard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-@media(max-width:1000px){.kboard{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.kboard{grid-template-columns:1fr}}
+.kwrap{max-width:1440px;margin:0 auto;padding:20px 18px 40px}
+.kboard{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+@media(max-width:1300px){.kboard{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.kboard{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.kboard{grid-template-columns:1fr}}
 .kcol{background:var(--s2);border:1px solid var(--b);border-radius:10px;display:flex;flex-direction:column;min-height:180px}
 .kcol-head{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;font-size:13px;font-weight:600;color:var(--t);border-bottom:1px solid var(--b)}
 .kcol-count{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:1px 8px;font-size:11px;color:var(--t2);font-weight:600}
@@ -184,6 +187,83 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 .kstar.active{color:#F5A623;filter:none;opacity:1}
 .kcard.destaque{background:#FFF8E7;box-shadow:0 0 0 1.5px #F5A623,var(--sh)}
 .kdestaque-badge{background:#F5A623;color:white;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:6px;letter-spacing:.02em}
+
+.kcol[data-col="bloqueado"] .kcol-head{background:#FDECEA;color:var(--re)}
+.kcol[data-col="bloqueado"] .kcol-count{border-color:#f8c0c0}
+
+.kwip-input{width:32px;border:1px solid var(--b);border-radius:4px;padding:1px 3px;font-size:10.5px;text-align:center;background:var(--s);outline:none;margin-right:4px}
+.kwip-input:focus{border-color:var(--pu)}
+.kcol-count.over{background:var(--reb)!important;color:var(--re)!important;border-color:#f8c0c0!important}
+.kwip-warning{background:var(--reb);color:var(--re);font-size:10.5px;font-weight:600;padding:4px 10px;text-align:center}
+
+.kcard.atrasado{background:#FDECEA;box-shadow:0 0 0 1.5px var(--re),var(--sh)}
+.katraso-badge{background:var(--re);color:white;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:6px;letter-spacing:.02em}
+
+.kfilters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.kfilters select{border:1px solid var(--b);border-radius:6px;padding:6px 9px;font-size:12.5px;color:var(--t2);background:var(--s);outline:none;cursor:pointer}
+.kfilters select:focus{border-color:var(--pu)}
+.kfilters .kbtn-ghost{width:auto;padding:6px 12px;flex:none}
+
+.cap-pill{padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:600;white-space:nowrap}
+.cap-disp{background:var(--grb);color:var(--gr)}
+.cap-equil{background:var(--yeb);color:#7a5400}
+.cap-sobre{background:var(--reb);color:var(--re)}
+
+.mcard.apoio{box-shadow:0 0 0 1.5px var(--re),var(--sh)}
+.apoio-badge{background:var(--re);color:white;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:4px}
+.apoio-check{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--t);margin-bottom:9px;cursor:pointer;font-weight:500}
+.apoio-check input{cursor:pointer;width:15px;height:15px}
+
+/* ── BALANÇOS ── */
+.bperiod{display:flex;background:var(--s2);border:1px solid var(--b);border-radius:9px;padding:3px;gap:3px;margin-bottom:20px;max-width:520px}
+.bperiod button{flex:1;background:none;border:none;padding:9px 0;border-radius:7px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .12s}
+.bperiod button.on{background:var(--s);color:var(--pu);box-shadow:var(--sh)}
+.bperiod button:hover:not(.on){color:var(--t)}
+
+.bgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+@media(max-width:900px){.bgrid{grid-template-columns:repeat(2,1fr)}}
+
+.bcard-bold{
+  border-radius:20px;padding:20px 20px 18px;color:white;position:relative;overflow:hidden;
+  box-shadow:0 6px 18px -4px rgba(0,0,0,0.22),0 2px 6px rgba(0,0,0,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+}
+.bcard-icon{
+  width:38px;height:38px;border-radius:13px;background:rgba(255,255,255,0.22);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  margin-bottom:16px;border:1px solid rgba(255,255,255,0.3);
+}
+.bcard-bold-num{font-size:32px;font-weight:700;line-height:1;margin-bottom:5px;letter-spacing:-.01em}
+.bcard-bold-lbl{font-size:12.5px;font-weight:700;opacity:.97}
+.bcard-bold-sub{font-size:11px;opacity:.82;margin-top:5px;line-height:1.4}
+
+.b-ok{background:linear-gradient(155deg,#4CAF50,#2E7D32)}
+.b-pend{background:linear-gradient(155deg,#FFB84D,#E08A00)}
+.b-xfer{background:linear-gradient(155deg,#4A90D9,#1565C0)}
+.b-imp{background:linear-gradient(155deg,#F0685E,#C0392B)}
+.b-hero{background:linear-gradient(155deg,#9B6FC7,#7030A0)}
+
+.bcard-plain{background:var(--s);border:1px solid var(--b);border-radius:20px;padding:20px 20px 18px;box-shadow:var(--sh)}
+.bcard-plain .bcard-icon{background:var(--s2);border-color:var(--b);color:var(--t2)}
+.bcard-plain .bcard-bold-num{color:var(--t);font-size:32px}
+.bcard-plain .bcard-bold-lbl{color:var(--t2)}
+.bcard-plain .bcard-bold-sub{color:var(--t3);opacity:1}
+
+.bprod-row{display:grid;grid-template-columns:1.3fr .7fr .7fr 2fr;align-items:center;gap:14px;padding:11px 14px;border-bottom:1px solid var(--b);font-size:13px}
+.bprod-row:last-child{border-bottom:none}
+.bprod-head{font-size:10.5px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;padding:0 14px 9px}
+.bprod-name{display:flex;align-items:center;gap:9px;font-weight:600;color:var(--t)}
+.bprod-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0}
+.bprod-slider{position:relative;height:26px;background:var(--s2);border-radius:13px;border:1px solid var(--b);margin:0 22px 0 0}
+.bprod-slider-fill{position:absolute;top:0;left:0;bottom:0;background:linear-gradient(90deg,#9B6FC7,var(--pu));border-radius:13px;transition:width .3s}
+.bprod-slider-handle{
+  position:absolute;top:50%;transform:translate(-50%,-50%);background:var(--pu);color:white;
+  font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;border:2px solid white;
+  box-shadow:0 2px 5px rgba(0,0,0,0.22);white-space:nowrap;
+}
+
+.bempty{padding:30px;text-align:center;color:var(--t3);font-size:13px;font-style:italic}
+.bloading{padding:30px;text-align:center;color:var(--t3);font-size:13px}
 .kcard-title{font-size:13px;color:var(--t);font-weight:500;margin-bottom:8px;padding-right:16px;line-height:1.4;word-break:break-word}
 .kcard-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:7px}
 .kresp-wrap{display:flex;align-items:center;gap:5px;flex:1;min-width:0}
@@ -255,6 +335,7 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 <div class="tabs" id="appTabs" style="display:none">
   <div class="tab on" data-tab="visao"     onclick="goTab('visao')">🏠 Visão Geral</div>
   <div class="tab"    data-tab="kanban"    onclick="goTab('kanban')">📋 Kanban</div>
+  <div class="tab"    data-tab="balancos"  onclick="goTab('balancos')">📊 Balanços</div>
   <div class="tab"    data-tab="henrique"  onclick="goTab('henrique')">👤 Henrique</div>
   <div class="tab"    data-tab="isabela"   onclick="goTab('isabela')">👤 Isabela</div>
   <div class="tab"    data-tab="wanderson" onclick="goTab('wanderson')">👤 Wanderson</div>
@@ -281,8 +362,37 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 
 <div class="page" id="page-kanban">
 <div class="kwrap">
+  <div class="chips" id="kanbanChips"></div>
+  <div class="kfilters">
+    <select id="kFiltroResp" onchange="kAplicarFiltros()">
+      <option value="">👤 Todos os responsáveis</option>
+      <option value="__sem__">Sem atribuição</option>
+      <option value="henrique">Henrique</option>
+      <option value="isabela">Isabela</option>
+      <option value="wanderson">Wanderson</option>
+      <option value="matheus">Matheus</option>
+      <option value="victor">Victor</option>
+      <option value="igor">Igor</option>
+    </select>
+    <select id="kFiltroComplex" onchange="kAplicarFiltros()">
+      <option value="">🔥 Todas as complexidades</option>
+      <option>Alta</option><option>Média</option><option>Baixa</option>
+    </select>
+    <button class="kbtn-ghost" onclick="kLimparFiltros()">Limpar filtros</button>
+  </div>
   <div class="sec-lbl">QUADRO KANBAN — <span id="kanban_date_lbl"></span></div>
   <div class="kboard" id="kanbanBoard"></div>
+</div>
+</div>
+
+<div class="page" id="page-balancos">
+<div class="wrap">
+  <div class="bperiod">
+    <button class="on" id="bp_dia" onclick="bSetPeriodo('dia')">Dia anterior</button>
+    <button id="bp_semana" onclick="bSetPeriodo('semana')">Semana</button>
+    <button id="bp_mes" onclick="bSetPeriodo('mes')">Mês</button>
+  </div>
+  <div id="balancosConteudo"><div class="bloading">Calculando...</div></div>
 </div>
 </div>
 
@@ -320,23 +430,29 @@ let curDate=todayStr(),isLocked=false,sb=null,cacheDay={dados:{},transferido:fal
 let DEMO_MODE=false;
 const demoDays={},demoMem={};
 
-const KCOLS=['geral','afazer','fazendo','feito'];
-const KLABEL={geral:'Geral',afazer:'A Fazer',fazendo:'Fazendo',feito:'Feito'};
+const KCOLS=['geral','afazer','fazendo','bloqueado','feito'];
+const KLABEL={geral:'Geral',afazer:'A Fazer',fazendo:'Fazendo',bloqueado:'Bloqueado',feito:'Feito'};
 let cacheKanban=[];
+let cacheWipLimits={};
+let demoWipLimits={};
 let cacheKanbanMeta={transferido:false};
 const demoKanban={};
 const demoKanbanXfer={};
 
 function seedKanbanDemo(){
   const d=todayStr();
-  const hojeDDMM=ddmmFromISO(d);
+  const hoje=ddmmFromISO(d);
+  const ontemDDMM=ddmmFromISO(addDays(d,-1));
   demoKanban[d]=[
-    {id:'k_demo1',titulo:'Aprovar orçamento do trimestre',responsavel:null,complexidade:'Alta',prazo:hojeDDMM,hora:'17:00',destaque:true,coluna:'geral'},
-    {id:'k_demo2',titulo:'Organizar documentação de processos',responsavel:'wanderson',complexidade:'Média',prazo:'10/07',coluna:'afazer'},
-    {id:'k_demo3',titulo:'Revisar fluxo de onboarding',responsavel:'matheus',complexidade:'Alta',prazo:'12/07',coluna:'fazendo'},
-    {id:'k_demo4',titulo:'Enviar relatório semanal',responsavel:'victor',complexidade:'Baixa',prazo:'08/07',coluna:'feito'},
-    {id:'k_demo5',titulo:'Ticket de baixa prioridade',responsavel:'wanderson',complexidade:'Baixa',prazo:'',coluna:'afazer'}
+    {id:'k_demo1',titulo:'Aprovar orçamento do trimestre',responsavel:null,complexidade:'Alta',prazo:hoje,hora:'17:00',destaque:true,coluna:'geral'},
+    {id:'k_demo2',titulo:'Organizar documentação de processos',responsavel:'wanderson',complexidade:'Média',prazo:'',coluna:'afazer'},
+    {id:'k_demo3',titulo:'Revisar fluxo de onboarding (venceu ontem)',responsavel:'matheus',complexidade:'Alta',prazo:ontemDDMM,coluna:'fazendo'},
+    {id:'k_demo3b',titulo:'Ajustar layout do relatório',responsavel:'henrique',complexidade:'Baixa',prazo:'',coluna:'fazendo'},
+    {id:'k_demo4',titulo:'Enviar relatório semanal',responsavel:'victor',complexidade:'Baixa',prazo:hoje,coluna:'feito'},
+    {id:'k_demo5',titulo:'Ticket de baixa prioridade',responsavel:'wanderson',complexidade:'Baixa',prazo:'',coluna:'afazer'},
+    {id:'k_demo6',titulo:'Aguardando retorno do fornecedor',responsavel:'igor',complexidade:'Média',prazo:'',coluna:'bloqueado'}
   ];
+  demoWipLimits={fazendo:1};
 }
 
 function seedDemoData(){
@@ -346,7 +462,7 @@ function seedDemoData(){
     {atividade:'Reunião de alinhamento',prioridade:'Média',status:'Pendente',prazo:'',obs:''},
     {atividade:'Documentar processos',prioridade:'Baixa',status:'Pendente',prazo:'',obs:''}
   ]};
-  demoMem[d+'|isabela']={ativs:[
+  demoMem[d+'|isabela']={apoioCk:true,apoioTxt:'Preciso de acesso ao sistema financeiro pra fechar o relatório.',ativs:[
     {atividade:'Ticket #4521 crítico',prioridade:'Alta',status:'Pendente',prazo:'',obs:''},
     {atividade:'Atualizar dashboard',prioridade:'Média',status:'Pendente',prazo:'',obs:''}
   ]};
@@ -366,18 +482,11 @@ function seedDemoData(){
   document.getElementById('datePicker').value=curDate;
   buildAllMemPages();
   buildKanbanBoard();
+  apiGetWipLimits().then(l=>{cacheWipLimits=l||{};renderKanban();}).catch(()=>{});
   loadAll().then(()=>checkAllTransfers()).then(()=>{ if(!DEMO_MODE) startPolling(); });
 })();
 
 function todayStr(){return new Date().toLocaleDateString('en-CA')}
-function hojeDDMM(){const[y,mo,d]=todayStr().split('-');return `${d}/${mo}`}
-function isPrazoHoje(prazo){
-  if(!prazo)return false;
-  const mm=prazo.trim().match(/^(\d{1,2})\/(\d{1,2})$/);
-  if(!mm)return false;
-  const hoje=new Date();
-  return parseInt(mm[1],10)===hoje.getDate() && parseInt(mm[2],10)===(hoje.getMonth()+1);
-}
 function fmtPT(s){
   if(!s)return'';
   const[y,m,d]=s.split('-');
@@ -436,6 +545,33 @@ async function apiGetAllMem(d){
   if(error)throw error;
   const o={};(data||[]).forEach(r=>o[r.membro]=r.dados);return o;
 }
+
+// ── BUSCA POR INTERVALO (pra Balanços) ──
+async function apiGetMembroRange(dataIni,dataFim){
+  if(DEMO_MODE){
+    const out=[];
+    Object.keys(demoMem).forEach(k=>{
+      const[data,membro]=k.split('|');
+      if(data>=dataIni&&data<=dataFim)out.push({data,membro,dados:demoMem[k]});
+    });
+    return out;
+  }
+  const{data,error}=await sb.from('membro_dias').select('*').gte('data',dataIni).lte('data',dataFim);
+  if(error)throw error;
+  return data||[];
+}
+async function apiGetKanbanRange(dataIni,dataFim){
+  if(DEMO_MODE){
+    const out=[];
+    Object.keys(demoKanban).forEach(d=>{
+      if(d>=dataIni&&d<=dataFim)out.push({data:d,cards:demoKanban[d]});
+    });
+    return out;
+  }
+  const{data,error}=await sb.from('kanban_dias').select('data,cards').gte('data',dataIni).lte('data',dataFim);
+  if(error)throw error;
+  return data||[];
+}
 async function apiSaveMem(d,m,dados){
   if(DEMO_MODE){demoMem[d+'|'+m]=dados;return;}
   const{error}=await sb.from('membro_dias').upsert({data:d,membro:m,dados},{onConflict:'data,membro'});
@@ -491,10 +627,23 @@ async function apiSetKanbanXfer(d){
   if(error)throw error;
 }
 
+async function apiGetWipLimits(){
+  if(DEMO_MODE)return demoWipLimits;
+  const{data,error}=await sb.from('kanban_config').select('wip_limits').eq('id',1).maybeSingle();
+  if(error)throw error;
+  return(data&&data.wip_limits)||{};
+}
+async function apiSaveWipLimits(limits){
+  if(DEMO_MODE){demoWipLimits=limits;return;}
+  const{error}=await sb.from('kanban_config').upsert({id:1,wip_limits:limits},{onConflict:'id'});
+  if(error)throw error;
+}
+
 // ── NAV ──
 function goTab(t){
   document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('on',el.dataset.tab===t));
   document.querySelectorAll('.page').forEach(el=>el.classList.toggle('on',el.id==='page-'+t));
+  if(t==='balancos')bCarregar();
 }
 function navDay(n){curDate=addDays(curDate,n);document.getElementById('datePicker').value=curDate;changeDate()}
 async function changeDate(){curDate=document.getElementById('datePicker').value;await loadAll();await checkAllTransfers()}
@@ -512,17 +661,19 @@ function applyLock(){
 // ── VISÃO GERAL ──
 function buildGrid(){
   const grid=document.getElementById('membersGrid');
-  let tot=0,alta=0,comp=0;
+  let tot=0,alta=0,comp=0,apoioCount=0;
   MEMBROS.forEach(m=>{
     const a=[...((cacheMem[m]||{}).ativs||[]),...getKanbanAtivsFor(m)];
     tot+=a.length;alta+=a.filter(x=>x.prioridade==='Alta').length;
     if(a.length>0&&a.every(x=>x.status==='Concluído'))comp++;
+    if((cacheMem[m]||{}).apoioCk)apoioCount++;
   });
   document.getElementById('summaryChips').innerHTML=`
     <div class="chip">👥 <strong>${MEMBROS.length}</strong> membros</div>
     <div class="chip">📋 <strong>${tot}</strong> atividades</div>
     <div class="chip">✅ <strong>${comp}/${MEMBROS.length}</strong> planos completos</div>
     ${alta>0?`<div class="chip red">🔴 <strong>${alta}</strong> alta prioridade</div>`:''}
+    ${apoioCount>0?`<div class="chip red">🆘 <strong>${apoioCount}</strong> precisando de apoio</div>`:''}
   `;
   grid.innerHTML='';
   MEMBROS.forEach(m=>{
@@ -538,9 +689,11 @@ function buildGrid(){
       else if(and){stag='b';stxt='Em andamento';dc='g';}
       else if(pend){stag='r';stxt='Pendente';dc='y';}
     }
+    const cap=nivelCapacidade(calcularCarga(m));
+    const precisaApoio=!!o.apoioCk;
     const prev=ativs.slice(0,3);
     const card=document.createElement('div');
-    card.className='mcard';
+    card.className='mcard'+(precisaApoio?' apoio':'');
     card.onclick=()=>goTab(m);
     card.innerHTML=`
       <div class="mcard-head">
@@ -548,9 +701,13 @@ function buildGrid(){
           <div class="mav" style="background:${color}">${ini}</div>
           <div><div class="mav-name">${label}</div><div class="mav-sub">${ativs.length} atividade${ativs.length!==1?'s':''}</div></div>
         </div>
-        <div class="mstatus ${dc}"></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <div class="mstatus ${dc}"></div>
+          <span class="cap-pill ${cap.cls}">${cap.emoji} ${cap.label}</span>
+        </div>
       </div>
       <div class="mcard-body">
+        ${precisaApoio?'<div class="apoio-badge">🆘 PRECISA DE APOIO</div>':''}
         ${ativs.length===0?'<div class="mempty">Sem atividades registradas</div>':
           prev.map(a=>`<div class="mtask"><div class="mdot" style="background:${a.prioridade==='Alta'?'var(--re)':a.prioridade==='Baixa'?'var(--gr)':'var(--ye)'}"></div><span class="mtask-text">${esc(a.atividade||'—')}</span></div>`).join('')
           +(ativs.length>3?`<div style="font-size:11px;color:var(--t3);margin-top:3px">+${ativs.length-3} mais...</div>`:'')
@@ -579,11 +736,14 @@ function buildMemPage(m){
       <div class="mhero-av" style="background:${color}">${ini}</div>
       <div><h2>${label}</h2><div class="msub" id="${m}_dlbl">—</div></div>
     </div>
-    <div class="pleg">
-      <span style="font-size:11px;font-weight:600;color:var(--t3);margin-right:3px">Prioridades:</span>
-      <div class="pleg-item"><span class="dot dr"></span>Alta</div>
-      <div class="pleg-item"><span class="dot dy"></span>Média</div>
-      <div class="pleg-item"><span class="dot dg"></span>Baixa</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="cap-pill" id="${m}_capBadge"></span>
+      <div class="pleg">
+        <span style="font-size:11px;font-weight:600;color:var(--t3);margin-right:3px">Prioridades:</span>
+        <div class="pleg-item"><span class="dot dr"></span>Alta</div>
+        <div class="pleg-item"><span class="dot dy"></span>Média</div>
+        <div class="pleg-item"><span class="dot dg"></span>Baixa</div>
+      </div>
     </div>
   </div>
   <div class="scard">
@@ -619,6 +779,16 @@ function buildMemPage(m){
     <div class="scard-head"><span class="scard-title" style="color:var(--pu)">Possíveis impedimentos / Atividades que ficaram pendentes</span></div>
     <div class="scard-body"><textarea class="fta" id="${m}_imp" placeholder="O que pode bloquear seu dia? O que ficou pendente de ontem?" oninput="saveMem('${m}')"></textarea></div>
   </div>
+  <div class="scard">
+    <div class="scard-head"><span class="scard-title" style="color:var(--re)">🆘 Apoio necessário</span></div>
+    <div class="scard-body">
+      <label class="apoio-check">
+        <input type="checkbox" id="${m}_apoioCk" onchange="saveMem('${m}');buildGrid()"> Preciso de apoio da liderança ou de outra área
+      </label>
+      <textarea class="fta" id="${m}_apoioTxt" placeholder="De quem ou do quê você precisa de ajuda?" oninput="saveMem('${m}')"></textarea>
+    </div>
+  </div>
+
   <div class="scard">
     <div class="scard-head"><span class="scard-title" style="color:var(--pu)">Melhoria proposta</span></div>
     <div class="scard-body"><textarea class="fta" id="${m}_mel" placeholder="Sugestão de melhoria para o time ou processo..." oninput="saveMem('${m}')"></textarea></div>
@@ -660,20 +830,28 @@ function kNewId(){return 'k_'+Date.now()+'_'+Math.random().toString(36).slice(2,
 function kx(v){return v==='Alta'?'kx-alta':v==='Baixa'?'kx-baixa':'kx-media'}
 
 const K_ORDEM_COMPLEX={'Alta':0,'Média':1,'Baixa':2};
+function kPrioridadeOrdenacao(card){
+  let score=K_ORDEM_COMPLEX[card.complexidade]??1;
+  if(card.destaque)score-=50;
+  if(estaAtrasado(card.prazo,card.hora,card.coluna))score-=100;
+  return score;
+}
 function kSortCards(cards){
-  return [...cards].sort((a,b)=>{
-    const da=a.destaque?0:1,db=b.destaque?0:1;
-    if(da!==db)return da-db;
-    const ca=K_ORDEM_COMPLEX[a.complexidade]??1,cb=K_ORDEM_COMPLEX[b.complexidade]??1;
-    return ca-cb;
-  });
+  return [...cards].sort((a,b)=>kPrioridadeOrdenacao(a)-kPrioridadeOrdenacao(b));
 }
 
 function buildKanbanBoard(){
   const board=document.getElementById('kanbanBoard');
   board.innerHTML=KCOLS.map(c=>`
     <div class="kcol" data-col="${c}">
-      <div class="kcol-head"><span>${KLABEL[c]}</span><span class="kcol-count" id="kcount_${c}">0</span></div>
+      <div class="kcol-head">
+        <span>${KLABEL[c]}</span>
+        <div style="display:flex;align-items:center">
+          <input type="number" class="kwip-input" id="kwip_${c}" min="0" placeholder="∞" title="Limite de WIP (deixe vazio para sem limite)" onchange="kSetWipLimit('${c}',this.value)">
+          <span class="kcol-count" id="kcount_${c}">0</span>
+        </div>
+      </div>
+      <div class="kwip-warning" id="kwipwarn_${c}" style="display:none"></div>
       <div class="kcol-body" id="kbody_${c}"
            ondragover="event.preventDefault();this.classList.add('dragover')"
            ondragleave="this.classList.remove('dragover')"
@@ -794,6 +972,13 @@ function kMoveCard(id,novaColuna){
   renderKanban();
   kSaveDebounced();
 }
+function kSetWipLimit(coluna,val){
+  if(isLocked)return;
+  const n=val===''?null:parseInt(val,10);
+  cacheWipLimits[coluna]=n;
+  apiSaveWipLimits(cacheWipLimits).catch(()=>{});
+  renderKanban();
+}
 
 let kDragId=null;
 function kDragStart(ev,id){
@@ -811,20 +996,62 @@ function kDrop(ev,coluna){
   kDragId=null;
 }
 
+function buildKanbanChips(){
+  const el=document.getElementById('kanbanChips');
+  if(!el)return;
+  const tot=cacheKanban.length;
+  const semAtrib=cacheKanban.filter(c=>!c.responsavel).length;
+  const alta=cacheKanban.filter(c=>c.complexidade==='Alta').length;
+  const destaque=cacheKanban.filter(c=>c.destaque).length;
+  const atrasados=cacheKanban.filter(c=>estaAtrasado(c.prazo,c.hora,c.coluna)).length;
+  const feitos=cacheKanban.filter(c=>c.coluna==='feito').length;
+  el.innerHTML=`
+    <div class="chip">📋 <strong>${tot}</strong> card${tot!==1?'s':''} no total</div>
+    ${semAtrib>0?`<div class="chip">🗂️ <strong>${semAtrib}</strong> sem atribuição</div>`:''}
+    ${atrasados>0?`<div class="chip red">⏰ <strong>${atrasados}</strong> atrasado${atrasados!==1?'s':''}</div>`:''}
+    ${alta>0?`<div class="chip red">🔴 <strong>${alta}</strong> alta complexidade</div>`:''}
+    ${destaque>0?`<div class="chip gold">⭐ <strong>${destaque}</strong> com destaque</div>`:''}
+    <div class="chip">✅ <strong>${feitos}/${tot}</strong> concluídos</div>
+  `;
+}
+
 function renderKanban(){
   const dl=document.getElementById('kanban_date_lbl');if(dl)dl.textContent=fmtPT(curDate);
+  buildKanbanChips();
   KCOLS.forEach(c=>{
     const body=document.getElementById('kbody_'+c);
     if(!body)return;
-    const cards=kSortCards(cacheKanban.filter(card=>card.coluna===c));
-    const countEl=document.getElementById('kcount_'+c);if(countEl)countEl.textContent=cards.length;
+    let cardsColuna=cacheKanban.filter(card=>card.coluna===c);
+    let cards=cardsColuna;
+    if(kFiltroResp==='__sem__')cards=cards.filter(card=>!card.responsavel);
+    else if(kFiltroResp)cards=cards.filter(card=>card.responsavel===kFiltroResp);
+    if(kFiltroComplex)cards=cards.filter(card=>card.complexidade===kFiltroComplex);
+    cards=kSortCards(cards);
+
+    const countEl=document.getElementById('kcount_'+c);
+    const limite=cacheWipLimits[c];
+    const excedeu=limite!=null&&cardsColuna.length>limite;
+    if(countEl){
+      countEl.textContent=cardsColuna.length;
+      countEl.classList.toggle('over',excedeu);
+    }
+    const wipInput=document.getElementById('kwip_'+c);
+    if(wipInput&&document.activeElement!==wipInput)wipInput.value=(limite==null?'':limite);
+    const warnEl=document.getElementById('kwipwarn_'+c);
+    if(warnEl){
+      warnEl.style.display=excedeu?'block':'none';
+      warnEl.textContent=excedeu?`⚠️ Limite de ${limite} excedido (${cardsColuna.length})`:'';
+    }
+
     body.innerHTML=cards.length?cards.map(card=>{
       const respColor=card.responsavel?MCOLOR[card.responsavel]:null;
       const cxv=card.complexidade||'Média';
+      const atrasado=estaAtrasado(card.prazo,card.hora,card.coluna);
       return `
-      <div class="kcard ${card.destaque?'destaque':''}" draggable="${!isLocked}" ondragstart="kDragStart(event,'${card.id}')" style="border-left-color:${respColor||'var(--b2)'}">
+      <div class="kcard ${card.destaque?'destaque':''} ${atrasado?'atrasado':''}" draggable="${!isLocked}" ondragstart="kDragStart(event,'${card.id}')" style="border-left-color:${respColor||'var(--b2)'}">
         <button class="kstar ${card.destaque?'active':''}" onclick="kToggleDestaque('${card.id}')" title="Marcar atenção da liderança" style="${isLocked?'display:none':''}">⭐</button>
         <button class="kdel" onclick="kDelete('${card.id}')" title="Remover" style="${isLocked?'display:none':''}">×</button>
+        ${atrasado?'<div class="katraso-badge">⏰ ATRASADO</div>':''}
         ${card.destaque?'<div class="kdestaque-badge">⚠️ ATENÇÃO DA LIDERANÇA</div>':''}
         <div class="kcard-title">${esc(card.titulo)}</div>
         <div class="kcard-meta">
@@ -851,7 +1078,7 @@ function renderKanban(){
     }).join(''):'<div class="kempty">Nenhum card aqui</div>';
   });
   document.querySelectorAll('.karb').forEach(el=>el.classList.toggle('hid',isLocked));
-  MEMBROS.forEach(m=>refreshLinkedRows(m));
+  MEMBROS.forEach(m=>{refreshLinkedRows(m);atualizarBadgeCapacidade(m);});
   buildGrid();
 }
 
@@ -867,6 +1094,60 @@ function kSaveDebounced(){
 
 // ── VÍNCULO: cards do Kanban aparecem na tabela de atividades da pessoa ──
 function kColToStatus(c){return c==='feito'?'Concluído':c==='fazendo'?'Em andamento':'Pendente'}
+
+// ── CARDS VENCIDOS ──
+function estaAtrasado(prazo,hora,coluna){
+  if(coluna==='feito')return false;
+  if(!prazo)return false;
+  const m=String(prazo).trim().match(/^(\d{1,2})\/(\d{1,2})$/);
+  if(!m)return false;
+  const dia=parseInt(m[1],10),mes=parseInt(m[2],10);
+  const agora=new Date();
+  const prazoDt=new Date(agora.getFullYear(),mes-1,dia);
+  if(hora){
+    const hm=String(hora).split(':').map(Number);
+    prazoDt.setHours(hm[0]||0,hm[1]||0,0,0);
+  }else{
+    prazoDt.setHours(23,59,59,999);
+  }
+  return prazoDt.getTime()<agora.getTime();
+}
+
+// ── INDICADOR DE CAPACIDADE ──
+const PESO_COMPLEX={'Alta':3,'Média':2,'Baixa':1};
+function calcularCarga(m){
+  const manual=(cacheMem[m]||{}).ativs||[];
+  const kanban=getKanbanAtivsFor(m);
+  const abertas=[...manual,...kanban].filter(a=>a.status!=='Concluído');
+  return abertas.reduce((soma,a)=>soma+(PESO_COMPLEX[a.prioridade]||2),0);
+}
+function nivelCapacidade(carga){
+  if(carga<=4)return{label:'Disponível',emoji:'🟢',cls:'cap-disp'};
+  if(carga<=9)return{label:'Equilibrado',emoji:'🟡',cls:'cap-equil'};
+  return{label:'Sobrecarregado',emoji:'🔴',cls:'cap-sobre'};
+}
+function atualizarBadgeCapacidade(m){
+  const el=document.getElementById(m+'_capBadge');
+  if(!el)return;
+  const cap=nivelCapacidade(calcularCarga(m));
+  el.className='cap-pill '+cap.cls;
+  el.textContent=cap.emoji+' '+cap.label;
+}
+
+// ── FILTROS DO KANBAN ──
+let kFiltroResp='',kFiltroComplex='';
+function kAplicarFiltros(){
+  kFiltroResp=document.getElementById('kFiltroResp').value;
+  kFiltroComplex=document.getElementById('kFiltroComplex').value;
+  renderKanban();
+}
+function kLimparFiltros(){
+  document.getElementById('kFiltroResp').value='';
+  document.getElementById('kFiltroComplex').value='';
+  kFiltroResp='';kFiltroComplex='';
+  renderKanban();
+}
+
 function getKanbanAtivsFor(m){
   return cacheKanban.filter(c=>c.responsavel===m).map(c=>({
     atividade:c.titulo,prioridade:c.complexidade||'Média',status:kColToStatus(c.coluna),prazo:c.prazo||'',hora:c.hora||''
@@ -904,6 +1185,9 @@ function saveMem(m){
   _mt[m]=setTimeout(async()=>{
     const o={};
     ['obj','meta','imp','mel','t1','t1p','t1h','t2','t2p','t2h','t3','t3p','t3h'].forEach(f=>{const el=document.getElementById(m+'_'+f);if(el)o[f]=el.value});
+    const apoioCkEl=document.getElementById(m+'_apoioCk');
+    o.apoioCk=apoioCkEl?apoioCkEl.checked:false;
+    o.apoioTxt=document.getElementById(m+'_apoioTxt')?.value||'';
     o.ativs=[];
     document.querySelectorAll('#tbody_'+m+' tr:not(.kanban-linked)').forEach(tr=>{
       o.ativs.push({
@@ -915,7 +1199,7 @@ function saveMem(m){
         obs:tr.querySelector('.ativ-obs')?.value||''
       });
     });
-    try{await apiSaveMem(curDate,m,o);cacheMem[m]=o;setConn(DEMO_MODE?'demo':'online');toast(`Salvo — ${MLABEL[m]} ✓`);buildGrid();}
+    try{await apiSaveMem(curDate,m,o);cacheMem[m]=o;setConn(DEMO_MODE?'demo':'online');toast(`Salvo — ${MLABEL[m]} ✓`);buildGrid();atualizarBadgeCapacidade(m);}
     catch(e){setConn('offline');toast('⚠️ Erro ao salvar')}
   },600);
 }
@@ -924,6 +1208,9 @@ function loadMem(m){
   const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||''};
   const dl=document.getElementById(m+'_dlbl');if(dl)dl.textContent=fmtPT(curDate)+' — '+fmtTime();
   ['obj','meta','imp','mel','t1','t1p','t2','t2p','t3','t3p'].forEach(f=>sv(m+'_'+f,o[f]));
+  const apoioCkEl=document.getElementById(m+'_apoioCk');
+  if(apoioCkEl)apoioCkEl.checked=!!o.apoioCk;
+  sv(m+'_apoioTxt',o.apoioTxt);
   [1,2,3].forEach(n=>{
     sv(m+'_t'+n+'h',o['t'+n+'h']);
     toggleHoraVis(document.getElementById(m+'_t'+n+'p'),document.getElementById(m+'_t'+n+'h'));
@@ -931,6 +1218,7 @@ function loadMem(m){
   document.getElementById('tbody_'+m).innerHTML='';
   (o.ativs&&o.ativs.length?o.ativs:[{},{},{}]).forEach(d=>addAtiv(m,d));
   refreshLinkedRows(m);
+  atualizarBadgeCapacidade(m);
 }
 
 // ── LOAD ALL ──
@@ -1036,6 +1324,208 @@ function startPolling(){
       MEMBROS.forEach(m=>loadMem(m));buildGrid();renderKanban();applyLock();
     }catch(e){setConn('offline')}
   },20000);
+}
+
+// ══════════════════════════════════════════
+// BALANÇOS — relatório consolidado por período
+// ══════════════════════════════════════════
+let bPeriodoAtual='dia';
+
+function bSetPeriodo(p){
+  bPeriodoAtual=p;
+  document.querySelectorAll('.bperiod button').forEach(b=>b.classList.remove('on'));
+  document.getElementById('bp_'+(p==='dia'?'dia':p)).classList.add('on');
+  bCarregar();
+}
+
+function bDatasDoPeriodo(){
+  const ontem=addDays(curDate,-1); // Balanços olha pra trás — dia de hoje ainda não fechou
+  if(bPeriodoAtual==='dia')return{ini:ontem,fim:ontem};
+  if(bPeriodoAtual==='semana')return{ini:addDays(ontem,-6),fim:ontem};
+  return{ini:addDays(ontem,-29),fim:ontem}; // mes
+}
+
+async function bCarregar(){
+  const el=document.getElementById('balancosConteudo');
+  el.innerHTML='<div class="bloading">Calculando...</div>';
+  const{ini,fim}=bDatasDoPeriodo();
+  try{
+    const resultado=await bCalcular(ini,fim);
+    bRenderizar(resultado,ini,fim);
+  }catch(e){
+    el.innerHTML='<div class="bempty">⚠️ Não foi possível calcular. Verifique a conexão.</div>';
+    console.error(e);
+  }
+}
+
+async function bCalcular(dataIni,dataFim){
+  const[membroRows,kanbanRows,membroAntes,kanbanAntes]=await Promise.all([
+    apiGetMembroRange(dataIni,dataFim),
+    apiGetKanbanRange(dataIni,dataFim),
+    apiGetMembroRange(addDays(dataIni,-1),addDays(dataIni,-1)),
+    apiGetKanbanRange(addDays(dataIni,-1),addDays(dataIni,-1))
+  ]);
+
+  let concluidas=0,pendentes=0,impedimentos=0,totalPlanejadas=0;
+  const porPessoa={};
+  MEMBROS.forEach(m=>porPessoa[m]={concluidas:0,total:0});
+  const backlogPorDia={};
+
+  membroRows.forEach(row=>{
+    const ativs=(row.dados&&row.dados.ativs)||[];
+    ativs.forEach(a=>{
+      if(!a.atividade)return;
+      totalPlanejadas++;
+      if(!porPessoa[row.membro])porPessoa[row.membro]={concluidas:0,total:0};
+      porPessoa[row.membro].total++;
+      if(a.status==='Concluído'){concluidas++;porPessoa[row.membro].concluidas++;}
+      else{pendentes++;backlogPorDia[row.data]=(backlogPorDia[row.data]||0)+1;}
+    });
+    if(row.dados&&row.dados.impedimentos&&row.dados.impedimentos.trim())impedimentos++;
+    if(row.dados&&row.dados.apoioCk)impedimentos++;
+  });
+
+  kanbanRows.forEach(row=>{
+    (row.cards||[]).forEach(c=>{
+      if(!c.titulo)return;
+      totalPlanejadas++;
+      if(c.coluna==='feito'){
+        concluidas++;
+        if(c.responsavel&&porPessoa[c.responsavel]){porPessoa[c.responsavel].concluidas++;porPessoa[c.responsavel].total++;}
+      }else{
+        pendentes++;
+        backlogPorDia[row.data]=(backlogPorDia[row.data]||0)+1;
+        if(c.responsavel&&porPessoa[c.responsavel])porPessoa[c.responsavel].total++;
+      }
+    });
+  });
+
+  // Transferidas: compara cada dia com o dia anterior, replicando a mesma lógica do carregamento automático
+  const membroPorData={};
+  [...membroAntes,...membroRows].forEach(r=>{
+    if(!membroPorData[r.data])membroPorData[r.data]={};
+    membroPorData[r.data][r.membro]=(r.dados&&r.dados.ativs)||[];
+  });
+  const kanbanPorData={};
+  [...kanbanAntes,...kanbanRows].forEach(r=>{kanbanPorData[r.data]=r.cards||[];});
+
+  let transferidas=0;
+  let d=dataIni;
+  while(d<=dataFim){
+    const anterior=addDays(d,-1);
+    MEMBROS.forEach(m=>{
+      const ontemAtivs=(membroPorData[anterior]&&membroPorData[anterior][m])||[];
+      const hojeAtivs=(membroPorData[d]&&membroPorData[d][m])||[];
+      ontemAtivs.filter(a=>a.status==='Pendente'&&a.atividade).forEach(a=>{
+        if(hojeAtivs.some(h=>h.atividade===a.atividade))transferidas++;
+      });
+    });
+    const kOntem=(kanbanPorData[anterior]||[]).filter(c=>c.coluna!=='feito');
+    const kHoje=kanbanPorData[d]||[];
+    kOntem.forEach(c=>{ if(kHoje.some(h=>h.id===c.id))transferidas++; });
+    d=addDays(d,1);
+  }
+
+  return{concluidas,pendentes,transferidas,impedimentos,totalPlanejadas,porPessoa,backlogPorDia};
+}
+
+function bRenderizar(r,dataIni,dataFim){
+  const el=document.getElementById('balancosConteudo');
+  const pctConclusao=r.totalPlanejadas>0?Math.round(r.concluidas/r.totalPlanejadas*100):0;
+
+  let html=`
+    <div class="bgrid">
+      <div class="bcard-bold b-ok">
+        <div class="bcard-icon">✅</div>
+        <div class="bcard-bold-num">${r.concluidas}</div>
+        <div class="bcard-bold-lbl">Concluídas</div>
+        <div class="bcard-bold-sub">Atividades finalizadas</div>
+      </div>
+      <div class="bcard-bold b-pend">
+        <div class="bcard-icon">⏳</div>
+        <div class="bcard-bold-num">${r.pendentes}</div>
+        <div class="bcard-bold-lbl">Pendentes</div>
+        <div class="bcard-bold-sub">Ainda em aberto</div>
+      </div>
+      <div class="bcard-bold b-xfer">
+        <div class="bcard-icon">🔁</div>
+        <div class="bcard-bold-num">${r.transferidas}</div>
+        <div class="bcard-bold-lbl">Transferidas</div>
+        <div class="bcard-bold-sub">Passaram pro dia seguinte</div>
+      </div>
+      <div class="bcard-bold b-imp">
+        <div class="bcard-icon">🆘</div>
+        <div class="bcard-bold-num">${r.impedimentos}</div>
+        <div class="bcard-bold-lbl">Impedimentos</div>
+        <div class="bcard-bold-sub">Registrados no período</div>
+      </div>
+    </div>
+    <div class="bgrid" style="grid-template-columns:1fr 1.4fr">
+      <div class="bcard-plain">
+        <div class="bcard-icon">📋</div>
+        <div class="bcard-bold-num">${r.totalPlanejadas}</div>
+        <div class="bcard-bold-lbl">Total planejado</div>
+        <div class="bcard-bold-sub">Atividades + cards do Kanban</div>
+      </div>
+      <div class="bcard-bold b-hero">
+        <div class="bcard-icon">🎯</div>
+        <div class="bcard-bold-num">${pctConclusao}%</div>
+        <div class="bcard-bold-lbl">Percentual de conclusão</div>
+        <div class="bcard-bold-sub">Concluídas sobre o total planejado no período</div>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-head"><span class="scard-title">Produtividade por colaborador</span></div>
+      <div class="scard-body" style="padding:10px 0">
+        <div class="bprod-row bprod-head">
+          <span>Colaborador</span><span>Concluídas</span><span>Total</span><span>Progresso</span>
+        </div>
+        ${MEMBROS.map(m=>{
+          const p=r.porPessoa[m]||{concluidas:0,total:0};
+          const pct=p.total>0?Math.round(p.concluidas/p.total*100):0;
+          return `<div class="bprod-row">
+            <span class="bprod-name"><span class="bprod-av" style="background:${MCOLOR[m]}">${MINIC[m]}</span>${MLABEL[m]}</span>
+            <span>${p.concluidas}</span>
+            <span>${p.total}</span>
+            <div class="bprod-slider">
+              <div class="bprod-slider-fill" style="width:${pct}%"></div>
+              <div class="bprod-slider-handle" style="left:${pct}%">${pct}%</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-head"><span class="scard-title">Evolução do backlog no período</span></div>
+      <div class="scard-body">${bGraficoBacklog(r.backlogPorDia,dataIni,dataFim)}</div>
+    </div>
+  `;
+  el.innerHTML=html;
+}
+
+function bGraficoBacklog(backlogPorDia,dataIni,dataFim){
+  const dias=[];
+  let d=dataIni;
+  while(d<=dataFim){dias.push(d);d=addDays(d,1);}
+  if(dias.length===0)return '<div class="bempty">Sem dados no período</div>';
+  const valores=dias.map(dt=>backlogPorDia[dt]||0);
+  const max=Math.max(...valores,1);
+  const W=760,H=170,plotH=120,baseY=140;
+  const slot=W/dias.length;
+  const barW=Math.max(slot*0.55,3);
+  const mostraLabelTodoDia=dias.length<=10;
+  const barras=dias.map((dt,i)=>{
+    const h=(valores[i]/max)*plotH;
+    const x=i*slot+(slot-barW)/2;
+    const y=baseY-h;
+    const [,mm,dd]=dt.split('-');
+    const label=dd+'/'+mm;
+    const mostraLabel=mostraLabelTodoDia||i%3===0||i===dias.length-1;
+    return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(h,1).toFixed(1)}" fill="var(--pu)" rx="2"/>
+      ${valores[i]>0?`<text x="${(x+barW/2).toFixed(1)}" y="${(y-4).toFixed(1)}" font-size="9" text-anchor="middle" fill="#6B6760">${valores[i]}</text>`:''}
+      ${mostraLabel?`<text x="${(x+barW/2).toFixed(1)}" y="${baseY+13}" font-size="8.5" text-anchor="middle" fill="#9E9A94">${label}</text>`:''}`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-height:200px">${barras}</svg>`;
 }
 </script>
 </body>
