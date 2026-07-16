@@ -50,7 +50,9 @@ textarea{resize:vertical}
 
 .tabs{background:var(--s);border-bottom:1px solid var(--b);display:flex;overflow-x:auto;padding:0 16px}
 .tabs::-webkit-scrollbar{height:0}
-.tab{padding:9px 14px;font-size:13px;font-weight:500;color:var(--t3);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;user-select:none}
+.tab{padding:9px 14px;font-size:13px;font-weight:500;color:var(--t3);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;user-select:none;position:relative}
+.notif-dot{display:none;width:7px;height:7px;background:var(--re);border-radius:50%;margin-left:6px;vertical-align:middle;position:relative;top:-6px}
+.notif-badge{background:var(--re);color:white;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:4px;display:inline-block;margin-bottom:6px;letter-spacing:.02em}
 .tab:hover{color:var(--pu)}
 .tab.on{color:var(--pu);border-bottom-color:var(--pu)}
 
@@ -282,6 +284,21 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 .khora{width:100%;border:1px solid var(--b);border-radius:5px;padding:4px 6px;font-size:11.5px;color:var(--t2);background:var(--s2);outline:none;margin-top:4px;display:none}
 .khora:focus{border-color:var(--pu)}
 .khora[readonly]{background:#FAFAF8;color:var(--t3);pointer-events:none}
+.kobs{width:100%;border:1px solid var(--b);border-radius:5px;padding:4px 6px;font-size:11.5px;color:var(--t2);background:var(--s2);outline:none;margin-top:6px}
+.kobs:focus{border-color:var(--pu)}
+.kobs[readonly]{background:#FAFAF8;color:var(--t3);pointer-events:none}
+
+.kanexos{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.kanexo-item{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--b);border-radius:5px;padding:4px 7px;font-size:11px}
+.kanexo-link{color:var(--pu);text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.kanexo-link:hover{text-decoration:underline}
+.kanexo-size{color:var(--t3);font-size:9.5px;flex-shrink:0}
+.kanexo-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:13px;padding:0 2px;flex-shrink:0;line-height:1}
+.kanexo-del:hover{color:var(--re)}
+.kanexo-add{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px;padding:6px;border:1px dashed var(--b2);border-radius:6px;font-size:11px;color:var(--t3);cursor:pointer;transition:all .12s}
+.kanexo-add:hover{border-color:var(--pu);color:var(--pu);background:var(--pul)}
+.kanexo-add.hid{display:none}
+.kcard.dragover-file{box-shadow:0 0 0 2px var(--pu),var(--sh)!important;background:var(--pul)!important}
 .ativ-hora{width:100%;margin-top:4px;border:1px solid var(--b);border-radius:5px;padding:4px 5px;font-size:12px;color:var(--t2);background:var(--s2);outline:none;display:none}
 .ativ-hora:focus{border-color:var(--pu)}
 
@@ -336,12 +353,12 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
   <div class="tab on" data-tab="visao"     onclick="goTab('visao')">🏠 Visão Geral</div>
   <div class="tab"    data-tab="kanban"    onclick="goTab('kanban')">📋 Kanban</div>
   <div class="tab"    data-tab="balancos"  onclick="goTab('balancos')">📊 Balanços</div>
-  <div class="tab"    data-tab="henrique"  onclick="goTab('henrique')">👤 Henrique</div>
-  <div class="tab"    data-tab="isabela"   onclick="goTab('isabela')">👤 Isabela</div>
-  <div class="tab"    data-tab="wanderson" onclick="goTab('wanderson')">👤 Wanderson</div>
-  <div class="tab"    data-tab="matheus"   onclick="goTab('matheus')">👤 Matheus</div>
-  <div class="tab"    data-tab="victor"    onclick="goTab('victor')">👤 Victor</div>
-  <div class="tab"    data-tab="igor"      onclick="goTab('igor')">👤 Igor</div>
+  <div class="tab"    data-tab="henrique"  onclick="goTab('henrique')">👤 Henrique<span class="notif-dot" id="notifdot_henrique"></span></div>
+  <div class="tab"    data-tab="isabela"   onclick="goTab('isabela')">👤 Isabela<span class="notif-dot" id="notifdot_isabela"></span></div>
+  <div class="tab"    data-tab="wanderson" onclick="goTab('wanderson')">👤 Wanderson<span class="notif-dot" id="notifdot_wanderson"></span></div>
+  <div class="tab"    data-tab="matheus"   onclick="goTab('matheus')">👤 Matheus<span class="notif-dot" id="notifdot_matheus"></span></div>
+  <div class="tab"    data-tab="victor"    onclick="goTab('victor')">👤 Victor<span class="notif-dot" id="notifdot_victor"></span></div>
+  <div class="tab"    data-tab="igor"      onclick="goTab('igor')">👤 Igor<span class="notif-dot" id="notifdot_igor"></span></div>
 </div>
 
 <div class="dbanner" id="demoBanner">
@@ -445,9 +462,9 @@ function seedKanbanDemo(){
   const ontemDDMM=ddmmFromISO(addDays(d,-1));
   demoKanban[d]=[
     {id:'k_demo1',titulo:'Aprovar orçamento do trimestre',responsavel:null,complexidade:'Alta',prazo:hoje,hora:'17:00',destaque:true,coluna:'geral'},
-    {id:'k_demo2',titulo:'Organizar documentação de processos',responsavel:'wanderson',complexidade:'Média',prazo:'',coluna:'afazer'},
+    {id:'k_demo2',titulo:'Organizar documentação de processos',responsavel:'wanderson',complexidade:'Média',prazo:'',visto:false,coluna:'afazer'},
     {id:'k_demo3',titulo:'Revisar fluxo de onboarding (venceu ontem)',responsavel:'matheus',complexidade:'Alta',prazo:ontemDDMM,coluna:'fazendo'},
-    {id:'k_demo3b',titulo:'Ajustar layout do relatório',responsavel:'henrique',complexidade:'Baixa',prazo:'',coluna:'fazendo'},
+    {id:'k_demo3b',titulo:'Ajustar layout do relatório',responsavel:'henrique',complexidade:'Baixa',prazo:'',obs:'Aguardar aprovação do design antes de mexer',coluna:'fazendo'},
     {id:'k_demo4',titulo:'Enviar relatório semanal',responsavel:'victor',complexidade:'Baixa',prazo:hoje,coluna:'feito'},
     {id:'k_demo5',titulo:'Ticket de baixa prioridade',responsavel:'wanderson',complexidade:'Baixa',prazo:'',coluna:'afazer'},
     {id:'k_demo6',titulo:'Aguardando retorno do fornecedor',responsavel:'igor',complexidade:'Média',prazo:'',coluna:'bloqueado'}
@@ -644,6 +661,26 @@ function goTab(t){
   document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('on',el.dataset.tab===t));
   document.querySelectorAll('.page').forEach(el=>el.classList.toggle('on',el.id==='page-'+t));
   if(t==='balancos')bCarregar();
+  if(MEMBROS.includes(t))marcarVisto(t);
+}
+
+// ── NOTIFICAÇÕES DE ATRIBUIÇÃO ──
+function atualizarNotificacoes(){
+  MEMBROS.forEach(m=>{
+    const temNaoVisto=cacheKanban.some(c=>c.responsavel===m&&c.visto===false);
+    const dot=document.getElementById('notifdot_'+m);
+    if(dot)dot.style.display=temNaoVisto?'inline-block':'none';
+  });
+}
+function marcarVisto(m){
+  let mudou=false;
+  cacheKanban.forEach(c=>{
+    if(c.responsavel===m&&c.visto===false){c.visto=true;mudou=true;}
+  });
+  if(mudou){
+    atualizarNotificacoes();
+    kSaveDebounced();
+  }
 }
 function navDay(n){curDate=addDays(curDate,n);document.getElementById('datePicker').value=curDate;changeDate()}
 async function changeDate(){curDate=document.getElementById('datePicker').value;await loadAll();await checkAllTransfers()}
@@ -691,6 +728,7 @@ function buildGrid(){
     }
     const cap=nivelCapacidade(calcularCarga(m));
     const precisaApoio=!!o.apoioCk;
+    const temNovaAtribuicao=cacheKanban.some(c=>c.responsavel===m&&c.visto===false);
     const prev=ativs.slice(0,3);
     const card=document.createElement('div');
     card.className='mcard'+(precisaApoio?' apoio':'');
@@ -707,6 +745,7 @@ function buildGrid(){
         </div>
       </div>
       <div class="mcard-body">
+        ${temNovaAtribuicao?'<div class="notif-badge">🔔 NOVA ATRIBUIÇÃO NO KANBAN</div>':''}
         ${precisaApoio?'<div class="apoio-badge">🆘 PRECISA DE APOIO</div>':''}
         ${ativs.length===0?'<div class="mempty">Sem atividades registradas</div>':
           prev.map(a=>`<div class="mtask"><div class="mdot" style="background:${a.prioridade==='Alta'?'var(--re)':a.prioridade==='Baixa'?'var(--gr)':'var(--ye)'}"></div><span class="mtask-text">${esc(a.atividade||'—')}</span></div>`).join('')
@@ -869,6 +908,7 @@ function buildKanbanBoard(){
         </div>
         <input type="text" class="kprazo" id="kaddprazo_${c}" placeholder="Prazo (dd/mm)" oninput="toggleHoraVis(this,document.getElementById('kaddhora_${c}'))">
         <input type="time" class="khora" id="kaddhora_${c}">
+        <input type="text" class="kobs" id="kaddobs_${c}" placeholder="Observação (opcional)">
         <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--t2);margin-top:2px;cursor:pointer">
           <input type="checkbox" id="kadddestaque_${c}" style="cursor:pointer"> ⭐ Atenção da liderança
         </label>
@@ -897,6 +937,7 @@ function kCancelAdd(c){
   document.getElementById('kaddprazo_'+c).value='';
   document.getElementById('kaddhora_'+c).value='';
   document.getElementById('kaddhora_'+c).style.display='none';
+  document.getElementById('kaddobs_'+c).value='';
   document.getElementById('kadddestaque_'+c).checked=false;
 }
 function kConfirmAdd(c){
@@ -907,10 +948,12 @@ function kConfirmAdd(c){
   const cx=document.getElementById('kaddcx_'+c).value;
   const prazo=document.getElementById('kaddprazo_'+c).value.trim();
   const hora=document.getElementById('kaddhora_'+c).value;
+  const obs=document.getElementById('kaddobs_'+c).value.trim();
   const destaque=document.getElementById('kadddestaque_'+c).checked;
   let coluna=c;
   if(coluna==='geral'&&resp)coluna='afazer';
-  cacheKanban.push({id:kNewId(),titulo:txt,responsavel:resp||null,complexidade:cx,prazo,hora,destaque,coluna});
+  cacheKanban.push({id:kNewId(),titulo:txt,responsavel:resp||null,complexidade:cx,prazo,hora,obs,destaque,visto:!resp,coluna});
+  if(resp)toast(`📌 Card atribuído a ${MLABEL[resp]}`);
   kCancelAdd(c);
   renderKanban();
   kSaveDebounced();
@@ -929,6 +972,14 @@ function kSetHora(id,val){
   const card=cacheKanban.find(c=>c.id===id);
   if(!card)return;
   card.hora=val;
+  kSaveDebounced();
+  MEMBROS.forEach(m=>refreshLinkedRows(m));
+}
+function kSetObs(id,val){
+  if(isLocked)return;
+  const card=cacheKanban.find(c=>c.id===id);
+  if(!card)return;
+  card.obs=val;
   kSaveDebounced();
   MEMBROS.forEach(m=>refreshLinkedRows(m));
 }
@@ -951,7 +1002,12 @@ function kAssign(id,resp){
   if(isLocked)return;
   const card=cacheKanban.find(c=>c.id===id);
   if(!card)return;
+  const respAntigo=card.responsavel;
   card.responsavel=resp||null;
+  if(resp&&resp!==respAntigo){
+    card.visto=false;
+    toast(`📌 Card atribuído a ${MLABEL[resp]}`);
+  }
   if(card.coluna==='geral'&&resp)card.coluna='afazer';
   renderKanban();
   kSaveDebounced();
@@ -990,10 +1046,82 @@ function kDragStart(ev,id){
 function kDrop(ev,coluna){
   ev.preventDefault();
   ev.currentTarget.classList.remove('dragover');
+  if(ev.dataTransfer.files&&ev.dataTransfer.files.length>0)return; // arquivo solto na coluna, não em um card específico: ignora
   const id=kDragId||ev.dataTransfer.getData('text/plain');
   if(isLocked||!id)return;
   kMoveCard(id,coluna);
   kDragId=null;
+}
+
+// ── ANEXOS (upload de arquivo pro card) ──
+const MAX_ANEXO_MB=10;
+function formatarTamanho(bytes){
+  if(!bytes)return'';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1024*1024)return(bytes/1024).toFixed(0)+' KB';
+  return(bytes/(1024*1024)).toFixed(1)+' MB';
+}
+function kCardDragOver(ev){
+  // se tem arquivo do sistema sendo arrastado (não um card interno), mostra o destaque visual
+  if(ev.dataTransfer.types&&ev.dataTransfer.types.includes('Files')){
+    ev.preventDefault();ev.stopPropagation();
+    ev.currentTarget.classList.add('dragover-file');
+  }
+}
+async function kDropFile(ev,cardId){
+  const files=ev.dataTransfer.files;
+  if(!files||files.length===0)return; // não era um arquivo (era um card sendo movido) — deixa propagar pra coluna
+  ev.preventDefault();ev.stopPropagation();
+  ev.currentTarget.classList.remove('dragover-file');
+  if(isLocked)return;
+  Array.from(files).forEach(f=>kUploadAnexo(cardId,f));
+}
+function kUploadAnexoInput(ev,cardId){
+  const files=ev.target.files;
+  if(files&&files.length>0)Array.from(files).forEach(f=>kUploadAnexo(cardId,f));
+  ev.target.value='';
+}
+async function kUploadAnexo(cardId,file){
+  if(isLocked)return;
+  if(file.size>MAX_ANEXO_MB*1024*1024){
+    toast(`⚠️ Arquivo muito grande (máx ${MAX_ANEXO_MB}MB)`);
+    return;
+  }
+  const card=cacheKanban.find(c=>c.id===cardId);
+  if(!card)return;
+  if(!card.anexos)card.anexos=[];
+  toast('📤 Enviando arquivo...');
+  try{
+    let url,path=null;
+    if(DEMO_MODE){
+      url=URL.createObjectURL(file); // só funciona nesta sessão do navegador — é modo demonstração
+    }else{
+      path=`${cardId}/${Date.now()}_${file.name}`;
+      const{error}=await sb.storage.from('anexos').upload(path,file);
+      if(error)throw error;
+      const{data:urlData}=sb.storage.from('anexos').getPublicUrl(path);
+      url=urlData.publicUrl;
+    }
+    card.anexos.push({nome:file.name,url,tamanho:file.size,tipo:file.type,path});
+    renderKanban();
+    kSaveDebounced();
+    toast(`✅ ${file.name} anexado`);
+  }catch(e){
+    toast('⚠️ Erro ao enviar arquivo');
+    console.error(e);
+  }
+}
+async function kRemoverAnexo(cardId,idx){
+  if(isLocked)return;
+  const card=cacheKanban.find(c=>c.id===cardId);
+  if(!card||!card.anexos||!card.anexos[idx])return;
+  const anexo=card.anexos[idx];
+  if(!DEMO_MODE&&anexo.path){
+    try{await sb.storage.from('anexos').remove([anexo.path]);}catch(e){console.error(e);}
+  }
+  card.anexos.splice(idx,1);
+  renderKanban();
+  kSaveDebounced();
 }
 
 function buildKanbanChips(){
@@ -1048,7 +1176,9 @@ function renderKanban(){
       const cxv=card.complexidade||'Média';
       const atrasado=estaAtrasado(card.prazo,card.hora,card.coluna);
       return `
-      <div class="kcard ${card.destaque?'destaque':''} ${atrasado?'atrasado':''}" draggable="${!isLocked}" ondragstart="kDragStart(event,'${card.id}')" style="border-left-color:${respColor||'var(--b2)'}">
+      <div class="kcard ${card.destaque?'destaque':''} ${atrasado?'atrasado':''}" draggable="${!isLocked}" ondragstart="kDragStart(event,'${card.id}')"
+           ondragover="kCardDragOver(event)" ondragleave="this.classList.remove('dragover-file')" ondrop="kDropFile(event,'${card.id}')"
+           style="border-left-color:${respColor||'var(--b2)'}">
         <button class="kstar ${card.destaque?'active':''}" onclick="kToggleDestaque('${card.id}')" title="Marcar atenção da liderança" style="${isLocked?'display:none':''}">⭐</button>
         <button class="kdel" onclick="kDelete('${card.id}')" title="Remover" style="${isLocked?'display:none':''}">×</button>
         ${atrasado?'<div class="katraso-badge">⏰ ATRASADO</div>':''}
@@ -1074,11 +1204,23 @@ function renderKanban(){
         </select>
         <input type="text" class="kprazo" placeholder="Prazo (dd/mm)" value="${esc(card.prazo||'')}" onchange="kSetPrazo('${card.id}',this.value)" ${isLocked?'readonly':''}>
         <input type="time" class="khora" style="display:${prazoEhHoje(card.prazo)?'block':'none'}" value="${esc(card.hora||'')}" onchange="kSetHora('${card.id}',this.value)" ${isLocked?'readonly':''}>
+        <input type="text" class="kobs" placeholder="Observação..." value="${esc(card.obs||'')}" onchange="kSetObs('${card.id}',this.value)" ${isLocked?'readonly':''}>
+        ${(card.anexos&&card.anexos.length)?`<div class="kanexos">${card.anexos.map((a,i)=>`
+          <div class="kanexo-item">
+            <a class="kanexo-link" href="${a.url}" target="_blank" rel="noopener">📎 ${esc(a.nome)}</a>
+            <span class="kanexo-size">${formatarTamanho(a.tamanho)}</span>
+            <button class="kanexo-del" onclick="kRemoverAnexo('${card.id}',${i})" title="Remover anexo" style="${isLocked?'display:none':''}">×</button>
+          </div>`).join('')}</div>`:''}
+        <label class="kanexo-add ${isLocked?'hid':''}">
+          📎 Anexar arquivo
+          <input type="file" style="display:none" onchange="kUploadAnexoInput(event,'${card.id}')">
+        </label>
       </div>`;
     }).join(''):'<div class="kempty">Nenhum card aqui</div>';
   });
   document.querySelectorAll('.karb').forEach(el=>el.classList.toggle('hid',isLocked));
   MEMBROS.forEach(m=>{refreshLinkedRows(m);atualizarBadgeCapacidade(m);});
+  atualizarNotificacoes();
   buildGrid();
 }
 
@@ -1167,7 +1309,7 @@ function renderLinkedRow(m,card){
     <td><div class="pcell"><span class="dot ${pc(cx)}"></span><span style="font-size:12px;color:var(--t2)">${cx}</span></div></td>
     <td><span class="${stClass}">${st}</span></td>
     <td><span style="font-size:12px;color:var(--t2)">${esc(prazoTxt)}</span></td>
-    <td><span style="font-size:11px;color:var(--t3);font-style:italic">via Kanban</span></td>
+    <td><span style="font-size:11px;color:var(--t3);font-style:italic">${card.obs?esc(card.obs)+' · ':''}via Kanban</span></td>
   `;
   tbody.appendChild(tr);
 }
@@ -1251,17 +1393,17 @@ async function checkXferActivities(){
   let count=0;
   for(const m of MEMBROS){
     const yo=yMems[m]||{};
-    const pend=(yo.ativs||[]).filter(a=>a.status==='Pendente'&&a.atividade);
+    const pend=(yo.ativs||[]).filter(a=>(a.status==='Pendente'||a.status==='Em andamento')&&a.atividade);
     if(!pend.length)continue;
     const ho=cacheMem[m]||{ativs:[]};if(!ho.ativs)ho.ativs=[];
     let ch=false;
-    pend.forEach(a=>{if(!ho.ativs.some(x=>x.atividade===a.atividade)){ho.ativs.push({...a,status:'Pendente'});count++;ch=true}});
+    pend.forEach(a=>{if(!ho.ativs.some(x=>x.atividade===a.atividade)){ho.ativs.push({...a});count++;ch=true}});
     if(ch){try{await apiSaveMem(curDate,m,ho);cacheMem[m]=ho}catch(e){}}
   }
   if(count>0){
     try{await apiSetXfer(curDate);cacheDay.transferido=true}catch(e){}
     MEMBROS.forEach(m=>loadMem(m));buildGrid();applyLock();
-    return `${count} atividade(s) pendente(s) transferida(s) do dia anterior.`;
+    return `${count} atividade(s) pendente(s)/em andamento transferida(s) do dia anterior.`;
   }
   return null;
 }
