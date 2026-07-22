@@ -266,6 +266,35 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 
 .bempty{padding:30px;text-align:center;color:var(--t3);font-size:13px;font-style:italic}
 .bloading{padding:30px;text-align:center;color:var(--t3);font-size:13px}
+
+/* ── CARGA DE TRABALHO ── */
+.carga-cfg-btn{margin-left:auto;background:none;border:1px solid var(--b);border-radius:6px;width:26px;height:26px;font-size:13px;cursor:pointer;color:var(--t2)}
+.carga-cfg-btn:hover{border-color:var(--pu);color:var(--pu);background:var(--pul)}
+.carga-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;justify-self:start}
+.carga-badge-normal{background:var(--grb);color:var(--gr)}
+.carga-badge-atencao{background:var(--yeb);color:#8a6300}
+.carga-badge-sobrecarga{background:var(--reb);color:var(--re)}
+.carga-pontos{font-size:11.5px;color:var(--t3)}
+.carga-fill-normal{background:linear-gradient(90deg,#7BC97F,var(--gr))!important}
+.carga-fill-atencao{background:linear-gradient(90deg,#F5C04D,var(--ye))!important}
+.carga-fill-sobrecarga{background:linear-gradient(90deg,#EF7E77,var(--re))!important}
+.carga-handle-normal{background:var(--gr)!important}
+.carga-handle-atencao{background:var(--ye)!important;color:#4a3800!important}
+.carga-handle-sobrecarga{background:var(--re)!important}
+.carga-row{grid-template-columns:1.3fr .9fr .8fr 2fr!important}
+.carga-resumo{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--b)}
+.carga-resumo-col{padding:12px 15px}
+.carga-resumo-col:first-child{border-right:1px solid var(--b)}
+.carga-resumo-ok{background:var(--grb)}
+.carga-resumo-bad{background:var(--reb)}
+.carga-resumo-lbl{font-size:11.5px;font-weight:700;color:var(--t2);margin-bottom:4px}
+.carga-resumo-val{font-size:13px;color:var(--t);font-weight:500}
+.carga-cfg-panel{display:none;border-top:1px solid var(--b);padding:12px 15px;background:var(--s2)}
+.carga-cfg-panel.on{display:block}
+.carga-cfg-title{font-size:12px;color:var(--t2);margin-bottom:9px}
+.carga-cfg-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:13px}
+.carga-cfg-input{width:52px!important;padding:4px 6px!important;font-size:12.5px!important}
+
 .kcard-title{font-size:13px;color:var(--t);font-weight:500;margin-bottom:8px;padding-right:16px;line-height:1.4;word-break:break-word}
 .kcard-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:7px}
 .kresp-wrap{display:flex;align-items:center;gap:5px;flex:1;min-width:0}
@@ -404,6 +433,7 @@ select.ps.lk,select.ss.lk{pointer-events:none;color:var(--t3)}
 
 <div class="page" id="page-balancos">
 <div class="wrap">
+  <div id="cargaConteudo"></div>
   <div class="bperiod">
     <button class="on" id="bp_dia" onclick="bSetPeriodo('dia')">Dia anterior</button>
     <button id="bp_semana" onclick="bSetPeriodo('semana')">Semana</button>
@@ -660,7 +690,7 @@ async function apiSaveWipLimits(limits){
 function goTab(t){
   document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('on',el.dataset.tab===t));
   document.querySelectorAll('.page').forEach(el=>el.classList.toggle('on',el.id==='page-'+t));
-  if(t==='balancos')bCarregar();
+  if(t==='balancos'){bCarregar();cCarregar();}
   if(MEMBROS.includes(t))marcarVisto(t);
 }
 
@@ -1389,11 +1419,29 @@ async function checkAllTransfers(){
 
 async function checkXferActivities(){
   if(curDate!==todayStr()||cacheDay.transferido)return null;
-  let yMems;try{yMems=await apiGetAllMem(addDays(curDate,-1))}catch(e){return null}
+  // Antes, só olhava o dia de ontem. Se o site ficasse um dia (ou mais) sem
+  // ninguém abrir — fim de semana, feriado, etc. — o dia "de ontem" ficava
+  // vazio no banco e a corrente de transferência quebrava, fazendo pendências
+  // mais antigas sumirem da visão de hoje. Agora ele volta dia a dia até achar
+  // o último dia com registro de verdade (limite de segurança: 60 dias).
+  const pendByMember={};MEMBROS.forEach(m=>pendByMember[m]=new Map());
+  let d=addDays(curDate,-1);
+  const limite=addDays(curDate,-60);
+  while(d>=limite){
+    let yMems;try{yMems=await apiGetAllMem(d)}catch(e){break}
+    if(Object.keys(yMems).length){
+      MEMBROS.forEach(m=>{
+        const yo=yMems[m]||{};
+        (yo.ativs||[]).filter(a=>(a.status==='Pendente'||a.status==='Em andamento')&&a.atividade)
+          .forEach(a=>{if(!pendByMember[m].has(a.atividade))pendByMember[m].set(a.atividade,a)});
+      });
+      break; // achou o último dia com registro — considera a partir daqui completo
+    }
+    d=addDays(d,-1);
+  }
   let count=0;
   for(const m of MEMBROS){
-    const yo=yMems[m]||{};
-    const pend=(yo.ativs||[]).filter(a=>(a.status==='Pendente'||a.status==='Em andamento')&&a.atividade);
+    const pend=Array.from(pendByMember[m].values());
     if(!pend.length)continue;
     const ho=cacheMem[m]||{ativs:[]};if(!ho.ativs)ho.ativs=[];
     let ch=false;
@@ -1403,22 +1451,43 @@ async function checkXferActivities(){
   if(count>0){
     try{await apiSetXfer(curDate);cacheDay.transferido=true}catch(e){}
     MEMBROS.forEach(m=>loadMem(m));buildGrid();applyLock();
-    return `${count} atividade(s) pendente(s)/em andamento transferida(s) do dia anterior.`;
+    return `${count} atividade(s) pendente(s)/em andamento transferida(s) de dias anteriores.`;
   }
   return null;
 }
 
+async function apiKanbanRowExists(d){
+  // Retorna a linha real do banco (ou null se o dia nunca foi salvo) — diferente
+  // de apiGetKanbanRow, que sempre devolve {cards:[]} mesmo quando não existe nada.
+  if(DEMO_MODE)return demoKanban.hasOwnProperty(d)?{cards:demoKanban[d]||[]}:null;
+  const{data,error}=await sb.from('kanban_dias').select('*').eq('data',d).maybeSingle();
+  if(error)throw error;
+  return data||null;
+}
+
 async function checkXferKanban(){
   if(curDate!==todayStr()||cacheKanbanMeta.transferido)return null;
-  let yRow;try{yRow=await apiGetKanbanRow(addDays(curDate,-1))}catch(e){return null}
-  const pend=(yRow.cards||[]).filter(c=>c.coluna!=='feito');
+  // Mesma lógica de correção do checkXferActivities: percorre os dias anteriores
+  // até achar o último dia com registro de verdade, em vez de olhar só ontem.
+  const pendMap=new Map();
+  let d=addDays(curDate,-1);
+  const limite=addDays(curDate,-60);
+  while(d>=limite){
+    let row;try{row=await apiKanbanRowExists(d)}catch(e){break}
+    if(row){
+      (row.cards||[]).filter(c=>c.coluna!=='feito').forEach(c=>{if(!pendMap.has(c.id))pendMap.set(c.id,c)});
+      break;
+    }
+    d=addDays(d,-1);
+  }
+  const pend=Array.from(pendMap.values());
   if(!pend.length)return null;
   let count=0;
   pend.forEach(c=>{if(!cacheKanban.some(x=>x.id===c.id)){cacheKanban.push({...c});count++;}});
   if(count>0){
     try{await apiSaveKanban(curDate,cacheKanban);await apiSetKanbanXfer(curDate);cacheKanbanMeta.transferido=true;}catch(e){}
     renderKanban();applyLock();
-    return `${count} card(s) do Kanban transferido(s) do dia anterior.`;
+    return `${count} card(s) do Kanban transferido(s) de dias anteriores.`;
   }
   return null;
 }
@@ -1465,7 +1534,137 @@ function startPolling(){
       isLocked=curDate<todayStr();
       MEMBROS.forEach(m=>loadMem(m));buildGrid();renderKanban();applyLock();
     }catch(e){setConn('offline')}
+    if(document.getElementById('page-balancos').classList.contains('on')){
+      try{const r=await cCalcular();document.getElementById('cargaBarrasWrap').innerHTML=cBarrasHtml(r);}catch(e){}
+    }
   },20000);
+}
+
+// ══════════════════════════════════════════
+// CARGA DE TRABALHO — sobrecarga em tempo real (🟢🟡🔴)
+// ══════════════════════════════════════════
+const CAPACIDADE_PADRAO=10;
+const PESO_PRIORIDADE={Alta:3,'Média':2,Baixa:1};
+const PESO_COMPLEXIDADE={Alta:3,'Média':2,Baixa:1};
+let cacheCargaConfig={};
+const demoCargaConfig={};
+
+async function apiGetCargaConfig(){
+  if(DEMO_MODE)return{...demoCargaConfig};
+  const{data,error}=await sb.from('carga_config').select('membro,capacidade');
+  if(error)throw error;
+  const o={};(data||[]).forEach(r=>o[r.membro]=r.capacidade);
+  return o;
+}
+async function apiSaveCargaCapacidade(membro,capacidade){
+  if(DEMO_MODE){demoCargaConfig[membro]=capacidade;return;}
+  const{error}=await sb.from('carga_config').upsert({membro,capacidade},{onConflict:'membro'});
+  if(error)throw error;
+}
+
+// Pontos de carga de hoje: cada atividade/card em aberto pesa conforme prioridade/complexidade.
+// Concluído e cards em "Feito" não pesam. % = pontos / capacidade configurada da pessoa (padrão 10).
+async function cCalcular(){
+  const d=todayStr();
+  let mems,krow;
+  try{[mems,krow]=await Promise.all([apiGetAllMem(d),apiGetKanbanRow(d)]);}
+  catch(e){return null;}
+  const cards=krow.cards||[];
+  const porPessoa={};
+  MEMBROS.forEach(m=>{
+    const ativs=(mems[m]&&mems[m].ativs)||[];
+    let pontos=0;
+    ativs.forEach(a=>{
+      if(!a.atividade||a.status==='Concluído')return;
+      pontos+=PESO_PRIORIDADE[a.prioridade]||1;
+    });
+    cards.filter(c=>c.responsavel===m&&c.coluna!=='feito').forEach(c=>{
+      pontos+=PESO_COMPLEXIDADE[c.complexidade]||1;
+    });
+    const capacidade=cacheCargaConfig[m]||CAPACIDADE_PADRAO;
+    const pct=capacidade>0?Math.round(pontos/capacidade*100):0;
+    let status='normal';
+    if(pct>=100)status='sobrecarga';
+    else if(pct>=70)status='atencao';
+    porPessoa[m]={pontos,capacidade,pct,status};
+  });
+  return porPessoa;
+}
+
+function cBarrasHtml(porPessoa){
+  if(!porPessoa)return'<div class="bempty">⚠️ Não foi possível carregar a carga de trabalho.</div>';
+  const ICON={normal:'🟢',atencao:'🟡',sobrecarga:'🔴'};
+  const LABEL={normal:'Normal',atencao:'Atenção',sobrecarga:'Sobrecarga'};
+  const disponiveis=MEMBROS.filter(m=>porPessoa[m].status==='normal');
+  const sobrecarregados=MEMBROS.filter(m=>porPessoa[m].status==='sobrecarga');
+  return`
+    <div style="padding:10px 0">
+      ${MEMBROS.map(m=>{
+        const p=porPessoa[m];const largura=Math.min(100,p.pct);
+        return`<div class="bprod-row carga-row">
+          <span class="bprod-name"><span class="bprod-av" style="background:${MCOLOR[m]}">${MINIC[m]}</span>${MLABEL[m]}</span>
+          <span class="carga-badge carga-badge-${p.status}">${ICON[p.status]} ${LABEL[p.status]}</span>
+          <span class="carga-pontos">${p.pontos}/${p.capacidade} pts</span>
+          <div class="bprod-slider">
+            <div class="bprod-slider-fill carga-fill-${p.status}" style="width:${largura}%"></div>
+            <div class="bprod-slider-handle carga-handle-${p.status}" style="left:${largura}%">${p.pct}%</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="carga-resumo">
+      <div class="carga-resumo-col carga-resumo-ok">
+        <div class="carga-resumo-lbl">🟢 Pessoas disponíveis</div>
+        <div class="carga-resumo-val">${disponiveis.length?disponiveis.map(m=>MLABEL[m]).join(', '):'Ninguém no momento'}</div>
+      </div>
+      <div class="carga-resumo-col carga-resumo-bad">
+        <div class="carga-resumo-lbl">🔴 Pessoas sobrecarregadas</div>
+        <div class="carga-resumo-val">${sobrecarregados.length?sobrecarregados.map(m=>MLABEL[m]).join(', '):'Ninguém no momento'}</div>
+      </div>
+    </div>`;
+}
+
+function cRenderizar(porPessoa){
+  const el=document.getElementById('cargaConteudo');
+  el.innerHTML=`
+    <div class="scard">
+      <div class="scard-head">
+        <span class="scard-title">⚖️ Carga de trabalho agora</span>
+        <button class="carga-cfg-btn" onclick="cAbrirConfig()" title="Configurar capacidade de cada pessoa">⚙️</button>
+      </div>
+      <div id="cargaBarrasWrap">${cBarrasHtml(porPessoa)}</div>
+      <div id="cargaCfgPanel" class="carga-cfg-panel"></div>
+    </div>`;
+}
+
+async function cCarregar(){
+  const el=document.getElementById('cargaConteudo');
+  if(!el.innerHTML)el.innerHTML='<div class="scard"><div class="bloading">Calculando carga de trabalho...</div></div>';
+  try{cacheCargaConfig=await apiGetCargaConfig();}catch(e){cacheCargaConfig={};}
+  const r=await cCalcular();
+  cRenderizar(r);
+}
+
+function cAbrirConfig(){
+  const panel=document.getElementById('cargaCfgPanel');
+  if(panel.classList.contains('on')){panel.classList.remove('on');panel.innerHTML='';return;}
+  panel.classList.add('on');
+  panel.innerHTML=`
+    <div class="carga-cfg-title">Capacidade de pontos por pessoa (padrão: ${CAPACIDADE_PADRAO} — quanto menor, mais rápido fica "Sobrecarga")</div>
+    ${MEMBROS.map(m=>`
+      <div class="carga-cfg-row">
+        <span>${MLABEL[m]}</span>
+        <input type="number" min="1" class="kwip-input carga-cfg-input" id="ccfg_${m}" value="${cacheCargaConfig[m]||CAPACIDADE_PADRAO}" onchange="cSalvarCapacidade('${m}',this.value)">
+      </div>`).join('')}
+  `;
+}
+
+async function cSalvarCapacidade(m,valor){
+  const cap=Math.max(1,parseInt(valor)||CAPACIDADE_PADRAO);
+  try{await apiSaveCargaCapacidade(m,cap);cacheCargaConfig[m]=cap;toast('Capacidade atualizada');}
+  catch(e){toast('⚠️ Erro ao salvar capacidade');}
+  const r=await cCalcular();
+  document.getElementById('cargaBarrasWrap').innerHTML=cBarrasHtml(r);
 }
 
 // ══════════════════════════════════════════
